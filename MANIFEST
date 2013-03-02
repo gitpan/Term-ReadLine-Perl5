@@ -1,0 +1,16 @@
+CHANGES
+lib/Term/ReadLine/Perl5.pm
+lib/Term/ReadLine/readline.CHANGES
+lib/Term/ReadLine/readline.pm
+Makefile.PL
+MANIFEST
+META.yml
+README
+README.pod
+t/00test-pod.t
+t/10test-basic.t
+t/10test-history.t
+t/10test-readline.t
+t/15test-eval.t
+test.pl
+META.json                                Module JSON meta-data (added by MakeMaker)
