@@ -36,7 +36,7 @@ use Carp;
 @ISA = qw(Term::ReadLine::Stub Term::ReadLine::Perl5::AU);
 #require 'readline.pl';
 
-$VERSION = 1.08;
+$VERSION = 1.09;
 
 =head2 SUBROUTINES
 
@@ -81,7 +81,7 @@ filehandles. These arguments should be globs.
 This routine might also be called via
 C<Term::ReadLine->new($term_name)> if other Term::ReadLine packages
 like L<Term::ReadLine::Gnu> is not available or if you have
-C<$ENV{PERL_RL}> set to 'Perl';
+C<$ENV{PERL_RL}> set to 'Perl5';
 
 At present, because this code has lots of global state, we currently don't
 support more than one readline instance.
@@ -398,10 +398,13 @@ __END__
 
 =head1 AUTHORS
 
-Jordan M. Adler
-Rocky Bernstein
+Rocky Bernstein (current maintainer)
 Ilya Zakharevich (Term::ReadLine::Perl)
 Jeffrey Friedl (Original Perl4 code)
+
+Contributors:
+Jordan M. Adler
+Clive Holloway
 
 =head1 SEE ALSO
 

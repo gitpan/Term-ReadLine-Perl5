@@ -1,0 +1,48 @@
+This file contains message digests of all files listed in MANIFEST,
+signed via the Module::Signature module, version 0.68.
+
+To verify the content in this distribution, first make sure you have
+Module::Signature installed, then type:
+
+    % cpansign -v
+
+It will check each file's integrity, as well as the signature's
+validity.  If "==> Signature verified OK! <==" is not displayed,
+the distribution may already have been compromised, and you should
+not run its Makefile.PL or Build.PL.
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+SHA1 377cb9963447e52bd1feb56f58f429ee9e70edcf Build.PL
+SHA1 9d115e7f2f219b5efd3cea0327c36f65f414d659 CHANGES
+SHA1 1c348735dc54f1795d24533bf5af9c90ef18ce9d ChangeLog
+SHA1 ad35d4ad9e96de51a11677ce075e19731336fa82 GNUmakefile
+SHA1 a10e65a7335eda07f42168246dbb04c9ab6f004a LICENSE
+SHA1 fc73cae3ac93830a3e4f782a69b0a4ca486e6f62 MANIFEST
+SHA1 2378391f008c743f104803a85dd93a6629b4b1e4 META.json
+SHA1 6fd5c43b280bdfb4c31471b5139a24f56071268a META.yml
+SHA1 9fa7916b771b6b22d684acab640dcea37b5e0624 Makefile.PL
+SHA1 2b044f0e2b7a4c55be73eced17d88b5b4027adf2 README.pod
+SHA1 8977ab12406a17054b782a36025bb4a1410def49 lib/Term/ReadLine/Perl5.pm
+SHA1 19b893fed1e00ce86650d80205fa927380e820c4 lib/Term/ReadLine/Perl5/CHANGES
+SHA1 4444a6dc4b2b64158def9c4da56721793a6be288 lib/Term/ReadLine/Perl5/readline.pod
+SHA1 c745f837939507edb36ab1742de3324fb9b07243 lib/Term/ReadLine/readline.pm
+SHA1 0028fef9be7783d9eba29ae4d3940cc99cc8d14e t/00test-pod.t
+SHA1 6caaf780b1a78466194acbfcb4df01545eb88ee5 t/10test-basic.t
+SHA1 6a937aaa8c28522bc27700b89f9976755deb9a28 t/10test-changecase.t
+SHA1 abc79be1b27dc5a0f7419d232834c1b5c560eb94 t/10test-history.t
+SHA1 4f010be200cca88e34f0a65aa2ddd2cb1f862a92 t/10test-motion.t
+SHA1 c64e9896b79289d76802f61d7480e0742271183a t/10test-readline.t
+SHA1 0c366a56d6f4794c73584e63adbea85af33b58c0 t/15test-unescape.t
+SHA1 4952e44954cd312b3fa4a64802a48a73852ce2d9 t/20test-read-input-file.t
+SHA1 a9d474f2aa943b2c7b9df45ad2e677f84d616308 t/Helper.pm
+SHA1 b4e508c02865f0e1d3260109fef54ebca66a8c2e t/data/undo.inputrc
+SHA1 7993a3622624c456de1fb64bee8f38344c29d5cc test.pl
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.11 (GNU/Linux)
+
+iEYEARECAAYFAlG8jA8ACgkQGo3lAIJ17CGIAACcDFiYdu3c1zftvY4tNR6VQebS
+FOoAnj0HV2PnYp4rZTjs1LHVb2TfoKwa
+=4bXf
+-----END PGP SIGNATURE-----
