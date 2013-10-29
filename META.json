@@ -4,7 +4,7 @@
       "Rocky Bernstein <rocky@cpan.org>"
    ],
    "dynamic_config" : 1,
-   "generated_by" : "Module::Build version 0.4, CPAN::Meta::Converter version 2.120921",
+   "generated_by" : "Module::Build version 0.4007, CPAN::Meta::Converter version 2.120921",
    "license" : [
       "perl_5"
    ],
@@ -14,12 +14,6 @@
    },
    "name" : "Term-ReadLine-Perl5",
    "prereqs" : {
-      "build" : {
-         "requires" : {
-            "Test::More" : "0.81",
-            "rlib" : "0.02"
-         }
-      },
       "configure" : {
          "requires" : {
             "Module::Build" : "0",
@@ -30,6 +24,7 @@
          "requires" : {
             "File::HomeDir" : "0.54",
             "File::Spec" : "0",
+            "Term::ReadKey" : "0",
             "version" : "0"
          }
       }
@@ -37,7 +32,7 @@
    "provides" : {
       "Term::ReadLine::Perl5" : {
          "file" : "lib/Term/ReadLine/Perl5.pm",
-         "version" : "1.09"
+         "version" : "1.10"
       },
       "Term::ReadLine::Perl5::AU" : {
          "file" : "lib/Term/ReadLine/Perl5.pm",
@@ -49,20 +44,24 @@
       },
       "readline" : {
          "file" : "lib/Term/ReadLine/readline.pm",
-         "version" : "1.09"
+         "version" : "1.10"
       }
    },
    "release_status" : "stable",
    "resources" : {
       "bugtracker" : {
-         "web" : "https://github.com/rocky/p5-Term-ReadLine/issues"
+         "web" : "https://github.com/rocky/p5-Term-ReadLine-Perl5/issues"
       },
       "license" : [
          "http://dev.perl.org/licenses/"
       ],
       "repository" : {
-         "url" : "http://github.com/rocky/p5-Term-ReadLine"
+         "url" : "http://github.com/rocky/p5-Term-ReadLine-Perl5"
       }
    },
-   "version" : "1.09"
+   "version" : "1.10",
+   "x_test_requires" : {
+      "Test::More" : "0.81",
+      "rlib" : "0.02"
+   }
 }

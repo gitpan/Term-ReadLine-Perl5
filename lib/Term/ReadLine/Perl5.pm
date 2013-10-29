@@ -1,7 +1,9 @@
 # -*- Perl -*-
 package Term::ReadLine::Perl5;
+use warnings; use strict;
+no warnings 'once';
 
-use Term::ReadLine;  # Needed for Term::ReadLine::Stub
+our $VERSION = '1.10';
 
 =head1 NAME
 
@@ -10,7 +12,7 @@ Term::ReadLine::Perl5 - A pure Perl implementation GNU Readline
 =head1 SYNOPSIS
 
   use Term::ReadLine::Perl5;
-  $term = new Term::ReadLine::Perl5 'ProgramName';
+  $term = Term::ReadLine::Perl5->new 'ProgramName';
   while ( defined ($_ = $term->readline('prompt>')) ) {
     ...
   }
@@ -31,12 +33,29 @@ Eval, Print Loops).
 
 =cut
 
-
 use Carp;
-@ISA = qw(Term::ReadLine::Stub Term::ReadLine::Perl5::AU);
-#require 'readline.pl';
 
-$VERSION = 1.09;
+our @ISA = qw(Term::ReadLine::Stub Term::ReadLine::Perl5::AU);
+my (%attribs, @history, $term);
+
+my %features = (
+		 appname => 1,       # "new" is recognized
+		 minline => 1,       # we have a working MinLine()
+		 autohistory => 1,   # lines are put into history automatically,
+		                     # subject to MinLine()
+		 getHistory => 1,    # we have a working getHistory()
+		 setHistory => 1,    # we have a working setHistory()
+		 addHistory => 1,    # we have a working add_history(), addhistory(),
+                                     # or addHistory()
+		 readHistory => 1,   # we have read_history() or readHistory()
+		 writeHistory => 1,  # we have writeHistory()
+		 preput => 1,        # the second argument to readline is processed
+		 attribs => 1,
+		 newTTY => 1,        # we have newTTY()
+		 stiflehistory => 1, # we have stifle_history()
+      );
+
+# Note: Some additional feature via Term::ReadLine::Stub are added when a "new" is done
 
 =head2 SUBROUTINES
 
@@ -91,6 +110,9 @@ Somebody please volunteer to rewrite this code!
 =cut
 
 sub new {
+  require Term::ReadLine;
+  $features{tkRunning} = Term::ReadLine::Stub->Features->{'tkRunning'};
+  $features{ornaments} = Term::ReadLine::Stub->Features->{'ornaments'};
   if (defined $term) {
     warn "Cannot create second readline interface, falling back to dumb.\n";
     return Term::ReadLine::Stub::new(@_);
@@ -106,7 +128,7 @@ sub new {
   }
   if (!@_) {
     if (!defined $term) {
-      ($IN,$OUT) = Term::ReadLine->findConsole();
+      my ($IN,$OUT) = Term::ReadLine->findConsole();
       # Old Term::ReadLine did not have a workaround for a bug in Win devdriver
       $IN = 'CONIN$' if $^O eq 'MSWin32' and "\U$IN" eq 'CON';
       open IN,
@@ -350,16 +372,9 @@ sub ReadHistory {
 sub WriteHistory {
     ! write_history(@_);
 }
-%features =  (appname => 1, minline => 1, autohistory => 1,
-	      getHistory => 1, setHistory => 1, addHistory => 1,
-	      readHistory => 1, writeHistory => 1,
-	      preput => 1, attribs => 1, newTTY => 1,
-	      tkRunning => Term::ReadLine::Stub->Features->{'tkRunning'},
-	      ornaments => Term::ReadLine::Stub->Features->{'ornaments'},
-	      stiflehistory => 1,
-	     );
+
 sub Features { \%features; }
-# my %attribs;
+
 tie %attribs, 'Term::ReadLine::Perl5::Tie' or die ;
 sub Attribs {
   \%attribs;
@@ -369,7 +384,7 @@ sub DESTROY {}
 package Term::ReadLine::Perl5::AU;
 
 sub AUTOLOAD {
-  { $AUTOLOAD =~ s/.*:://; }		# preserve match data
+  my $AUTOLOAD =~ s/.*:://; 		# preserve match data
   my $name = "readline::rl_$AUTOLOAD";
   die "Unknown method `$AUTOLOAD' in Term::ReadLine::Perl5"
     unless exists $readline::{"rl_$AUTOLOAD"};
@@ -384,11 +399,13 @@ sub DESTROY {}
 
 sub STORE {
   my ($self, $name) = (shift, shift);
+  no strict;
   $ {'readline::rl_' . $name} = shift;
 }
 
 sub FETCH {
   my ($self, $name) = (shift, shift);
+  no strict;
   $ {'readline::rl_' . $name};
 }
 

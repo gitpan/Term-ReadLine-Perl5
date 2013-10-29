@@ -1,3 +1,115 @@
+2013-10-27  Rocky Bernstein <rocky@cpan.org>
+
+	* Build.PL, META.yml, lib/Term/ReadLine/readline.pm: Require
+	Term::ReadKey. This simplifies at the expense of generality for some
+	obscure systems. For those, use Term::ReadLine.
+
+2013-10-26  Rocky Bernstein <rocky@cpan.org>
+
+	* Build.PL: For now, at least recommend Term::ReadKey
+
+2013-10-24  Rocky Bernstein <rocky@cpan.org>
+
+	* lib/Term/ReadLine/readline.pm: Regularize more indentation
+
+2013-10-24  Rocky Bernstein <rocky@cpan.org>
+
+	* Build.PL: Test::More moved to test_requires; add rlib on
+	test_requires
+
+2013-09-09  Rocky Bernstein <rocky@cpan.org>
+
+	* .gitignore, lib/Term/ReadLine/Perl5.pm: Perl5.pm: redo %features
+	yet one more time. More .gitignore
+
+2013-09-09  Rocky Bernstein <rocky@cpan.org>
+
+	* lib/Term/ReadLine/Perl5.pm: In synopsys use Newer OO form of
+	"new".
+
+2013-09-09  Rocky Bernstein <rocky@cpan.org>
+
+	* lib/Term/ReadLine/Perl5.pm: We now "use strict".
+
+2013-09-09  Rocky Bernstein <rocky@cpan.org>
+
+	* lib/Term/ReadLine/Perl5.pm: Add "use warnings". "strict" will have
+	wait for another time.
+
+2013-09-09  Rocky Bernstein <rocky@cpan.org>
+
+	* lib/Term/ReadLine/Perl5.pm: require Term::ReadLine delayed until
+	"new" to remove cyclic require dependency.
+
+2013-09-09  Rocky Bernstein <rocky@cpan.org>
+
+	* lib/Term/ReadLine/Perl5.pm: Eliminate compile-time cyclic
+	dependency between Term:::ReadLine::Perl5 and Term::ReadLine. See
+	ussue 4 in Term::ReadLine
+	https://github.com/rafl/term-readline/pull/4
+
+2013-06-16  Rocky Bernstein <rocky@cpan.org>
+
+	* README.pod: Link on travis image
+
+2013-06-16  Rocky Bernstein <rocky@cpan.org>
+
+	* .travis.yml: Stripped down travis file
+
+2013-06-16  Rocky Bernstein <rocky@cpan.org>
+
+	* Build.PL: Simpler way of dealing with release/test versions
+
+2013-06-15  Rocky Bernstein <rocky@cpan.org>
+
+	* .travis.yml: Travis doesn't seem to be picking up dependencies
+	from Build.PL
+
+2013-06-15  Rocky Bernstein <rocky@cpan.org>
+
+	* Build.PL: Messed up on github URLs
+
+2013-06-15  Rocky Bernstein <rocky@cpan.org>
+
+	* Build.PL, lib/Term/ReadLine/Perl5.pm,
+	lib/Term/ReadLine/readline.pm: Out of release 1.0901
+
+2013-06-15  Rocky Bernstein <rocky@cpan.org>
+
+	* : commit 85e1ccd7b80a6814dfff4614c4bd8fbabaedf37a Author: Rocky
+	Bernstein <rocky@cpan.org> Date:   Sat Jun 15 11:49:06 2013 -0400
+
+2013-06-15  Rocky Bernstein <rocky@cpan.org>
+
+	* MANIFEST, META.yml, README.pod: Better README.pod formatting
+
+2013-06-15  Rocky Bernstein <rocky@cpan.org>
+
+	* : commit 34cabf6fad216bcfed4bfe5560a13e46cdb09274 Author: Rocky
+	Bernstein <rocky@cpan.org> Date:   Sat Jun 15 11:15:30 2013 -0400
+
+2013-06-15  Rocky Bernstein <rocky@cpan.org>
+
+	* CHANGES, MANIFEST, README, README.pod,
+	lib/Term/ReadLine/Perl5/CHANGES,
+	lib/Term/ReadLine/Perl5/readline.pod,
+	lib/Term/ReadLine/p5Commentary.pod,
+	lib/Term/ReadLine/readline.CHANGES, lib/Term/ReadLine/readline.pm,
+	test.pl: test.pl: use string and warnings. reduce duplicate README
+	documentation and segregate old docs.
+
+2013-06-15  Rocky Bernstein <rocky@cpan.org>
+
+	* Build.PL, GNUmakefile, MANIFEST, MANIFEST.SKIP,
+	lib/Term/ReadLine/Perl5.pm, lib/Term/ReadLine/readline.pm: Use
+	File::HomeDir
+
+2013-06-15  Rocky Bernstein <rocky@cpan.org>
+
+	* .gitignore, Build.PL, MANIFEST, Makefile.PL,
+	lib/Term/ReadLine/Perl5.pm, t/Makefile, test.pl: Use Module::Build
+	and specify github repo and issue tracker
+
 2013-06-15  Rocky Bernstein <rocky@cpan.org>
 
 	* META.yml, Makefile.PL, README.pod: LICENSE has moved to a more
