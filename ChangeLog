@@ -1,3 +1,10 @@
+2013-10-31  Rocky Bernstein <rocky@cpan.org>
+
+	* Build.PL, CHANGES, META.yml, README.pod,
+	lib/Term/ReadLine/Perl5.pm, lib/Term/ReadLine/readline.pm,
+	t/10test-history.t: Get ready for release 1.12: - Specify min Module::Build version that uses "test_requires".  - Small doc changes.  - Revise history test - try again with tests where we don't get a
+	tty.
+
 2013-10-30  Rocky Bernstein <rocky@cpan.org>
 
 	* t/10test-history.t, t/10test-readline.t: Skip some tests if we

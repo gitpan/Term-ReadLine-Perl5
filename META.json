@@ -16,7 +16,7 @@
    "prereqs" : {
       "configure" : {
          "requires" : {
-            "Module::Build" : "0",
+            "Module::Build" : "v0.4.4",
             "perl" : "5.008008"
          }
       },
@@ -32,7 +32,7 @@
    "provides" : {
       "Term::ReadLine::Perl5" : {
          "file" : "lib/Term/ReadLine/Perl5.pm",
-         "version" : "1.11"
+         "version" : "1.12"
       },
       "Term::ReadLine::Perl5::AU" : {
          "file" : "lib/Term/ReadLine/Perl5.pm",
@@ -44,7 +44,7 @@
       },
       "readline" : {
          "file" : "lib/Term/ReadLine/readline.pm",
-         "version" : "1.11"
+         "version" : "1.12"
       }
    },
    "release_status" : "stable",
@@ -59,7 +59,7 @@
          "url" : "http://github.com/rocky/p5-Term-ReadLine-Perl5"
       }
    },
-   "version" : "1.11",
+   "version" : "1.12",
    "x_test_requires" : {
       "Test::More" : "0.81",
       "rlib" : "0.02"
