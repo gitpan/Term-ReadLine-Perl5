@@ -1,5 +1,5 @@
 {
-   "abstract" : "Pure Perl version of GNU ReadLine.",
+   "abstract" : "Perl5 version of GNU ReadLine.",
    "author" : [
       "Rocky Bernstein <rocky@cpan.org>"
    ],
@@ -32,7 +32,7 @@
    "provides" : {
       "Term::ReadLine::Perl5" : {
          "file" : "lib/Term/ReadLine/Perl5.pm",
-         "version" : "1.10"
+         "version" : "1.11"
       },
       "Term::ReadLine::Perl5::AU" : {
          "file" : "lib/Term/ReadLine/Perl5.pm",
@@ -44,7 +44,7 @@
       },
       "readline" : {
          "file" : "lib/Term/ReadLine/readline.pm",
-         "version" : "1.10"
+         "version" : "1.11"
       }
    },
    "release_status" : "stable",
@@ -59,7 +59,7 @@
          "url" : "http://github.com/rocky/p5-Term-ReadLine-Perl5"
       }
    },
-   "version" : "1.10",
+   "version" : "1.11",
    "x_test_requires" : {
       "Test::More" : "0.81",
       "rlib" : "0.02"

@@ -1,3 +1,7 @@
+1.11: 2013-10-30
+
+- Skip some tests if we don't have a tty.
+
 1.10: 2013-10-29
 - Make Term::ReadKey a requirement and simplify surrounding code.
   For those that can't use Term::ReadKey, there is always

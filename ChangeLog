@@ -1,3 +1,31 @@
+2013-10-30  Rocky Bernstein <rocky@cpan.org>
+
+	* t/10test-history.t, t/10test-readline.t: Skip some tests if we
+	don't have access to a tty
+
+2013-10-29  Rocky Bernstein <rocky@cpan.org>
+
+	* Build.PL: Maybe this isn't so "pure". It definitely is Perl5.
+
+2013-10-29  Rocky Bernstein <rocky@cpan.org>
+
+	* .travis.yml, META.yml, lib/Term/ReadLine/Perl5.pm,
+	lib/Term/ReadLine/readline.pm: bump version. Include 5.18 and
+	require Term::ReadKey in travis
+
+2013-10-29  Rocky Bernstein <rocky@cpan.org>
+
+	* lib/Term/ReadLine/readline.pm: I said get ready for release 1.10!
+
+2013-10-29  Rocky Bernstein <rocky@cpan.org>
+
+	* META.yml, lib/Term/ReadLine/Perl5.pm,
+	lib/Term/ReadLine/readline.pm: I said get ready for release 1.10!
+
+2013-10-29  Rocky Bernstein <rocky@cpan.org>
+
+	* CHANGES, lib/Term/ReadLine/Perl5.pm: Get ready for release 1.10
+
 2013-10-27  Rocky Bernstein <rocky@cpan.org>
 
 	* Build.PL, META.yml, lib/Term/ReadLine/readline.pm: Require
