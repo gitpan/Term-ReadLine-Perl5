@@ -1,3 +1,8 @@
+2013-11-01  Rocky Bernstein <rocky@cpan.org>
+
+	* Build.PL, CHANGES, META.yml, lib/Term/ReadLine/Perl5.pm,
+	lib/Term/ReadLine/readline.pm: Get ready for release 1.13
+
 2013-10-31  Rocky Bernstein <rocky@cpan.org>
 
 	* Build.PL, CHANGES, META.yml, README.pod,
