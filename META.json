@@ -4,7 +4,7 @@
       "Rocky Bernstein <rocky@cpan.org>"
    ],
    "dynamic_config" : 1,
-   "generated_by" : "Module::Build version 0.4007, CPAN::Meta::Converter version 2.120921",
+   "generated_by" : "Module::Build version 0.4007, CPAN::Meta::Converter version 2.131560",
    "license" : [
       "perl_5"
    ],
@@ -32,19 +32,17 @@
    "provides" : {
       "Term::ReadLine::Perl5" : {
          "file" : "lib/Term/ReadLine/Perl5.pm",
-         "version" : "1.13"
+         "version" : "1.20"
       },
-      "Term::ReadLine::Perl5::AU" : {
-         "file" : "lib/Term/ReadLine/Perl5.pm",
-         "version" : 0
+      "Term::ReadLine::Perl5::History" : {
+         "file" : "lib/Term/ReadLine/Perl5/History.pm"
       },
       "Term::ReadLine::Perl5::Tie" : {
-         "file" : "lib/Term/ReadLine/Perl5.pm",
-         "version" : 0
+         "file" : "lib/Term/ReadLine/Perl5/Tie.pm"
       },
-      "readline" : {
-         "file" : "lib/Term/ReadLine/readline.pm",
-         "version" : "1.13"
+      "Term::ReadLine::Perl5::readline" : {
+         "file" : "lib/Term/ReadLine/Perl5/readline.pm",
+         "version" : "1.20"
       }
    },
    "release_status" : "stable",
@@ -59,7 +57,7 @@
          "url" : "http://github.com/rocky/p5-Term-ReadLine-Perl5"
       }
    },
-   "version" : "1.13",
+   "version" : "1.20",
    "x_test_requires" : {
       "Test::More" : "0.81",
       "rlib" : "0.02"

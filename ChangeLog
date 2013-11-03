@@ -1,3 +1,85 @@
+2013-11-03  Rocky Bernstein <rocky@cpan.org>
+
+	* CHANGES: Get ready for release 1.20
+
+2013-11-03  Rocky Bernstein <rocky@cpan.org>
+
+	* README.pod: See above
+
+2013-11-03  Rocky Bernstein <rocky@cpan.org>
+
+	* README.pod: Include link to github tracker page.
+
+2013-11-03  Rocky Bernstein <rocky@cpan.org>
+
+	* lib/Term/ReadLine/Perl5.pm, lib/Term/ReadLine/Perl5/readline.pm,
+	t/10test-readline.t, test.pl: Miscellaneous warning and bug fixes
+	caught by stricter checking.
+
+2013-11-03  Rocky Bernstein <rocky@cpan.org>
+
+	* lib/Term/ReadLine/Perl5.pm, lib/Term/ReadLine/Perl5/readline.pm,
+	t/10test-changecase.t, t/10test-motion.t: Perl5.pm get rid of bogus
+	initialization and need for preinit in tests.  Initialize some
+	things that should be initialized in readline.pm
+
+2013-11-03  Rocky Bernstein <rocky@cpan.org>
+
+	* CHANGES, MANIFEST, META.yml, lib/Term/ReadLine/Perl5.pm,
+	lib/Term/ReadLine/Perl5/History.pm, lib/Term/ReadLine/Perl5/Tie.pm,
+	lib/Term/ReadLine/Perl5/readline.pm: Move more code into History.pm.
+	Create Tie.pm as its own file.
+
+2013-11-02  Rocky Bernstein <rocky@cpan.org>
+
+	* lib/Term/ReadLine/Perl5/History.pm: Start to doc history better
+
+2013-11-02  Rocky Bernstein <rocky@cpan.org>
+
+	* MANIFEST, lib/Term/ReadLine/Perl5.pm,
+	lib/Term/ReadLine/Perl5/History.pm,
+	lib/Term/ReadLine/Perl5/readline.pm: Break out history variables
+	form readline into its own module.
+
+2013-11-02  Rocky Bernstein <rocky@cpan.org>
+
+	* README.pod: Update README.pod
+
+2013-11-02  Rocky Bernstein <rocky@cpan.org>
+
+	* lib/Term/ReadLine/Perl5/readline.pm, t/10test-changecase.t,
+	t/10test-motion.t, t/15test-unescape.t: More administrivia for
+	moving readline.pm to Term::ReadLine:Perl5::readline.
+
+2013-11-02  Rocky Bernstein <rocky@cpan.org>
+
+	* t/10test-basic.t: readline -> Term::ReadLine::Perl5::readline
+
+2013-11-02  Rocky Bernstein <rocky@cpan.org>
+
+	* lib/Term/ReadLine/Perl5/readline.pm: mend
+
+2013-11-02  Rocky Bernstein <rocky@cpan.org>
+
+	* lib/Term/ReadLine/Perl5/readline.pm: Use "my" more although we are
+	still not ready for strict vars
+
+2013-11-02  Rocky Bernstein <rocky@cpan.org>
+
+	* CHANGES, lib/Term/ReadLine/Perl5.pm,
+	lib/Term/ReadLine/Perl5/readline.pm, lib/Term/ReadLine/readline.pm,
+	t/10test-history.t, t/11test-history.t, t/20test-read-input-file.t: 
+	Move readline.pm proper place for its namespace. This really should
+	have been done a long time ago.  Revise history test to use
+	Test::More which simplifies and DRYs code. Nowadays we assume
+	Test::More is pervasive, at least for testing, and we don't care
+	about 5.0005 anymore either.
+
+2013-11-02  Rocky Bernstein <rocky@cpan.org>
+
+	* t/10test-history.t, t/10test-motion.t, t/11test-history.t: Revise
+	history test from Term::ReadLine::GNU to use Test::More
+
 2013-11-01  Rocky Bernstein <rocky@cpan.org>
 
 	* Build.PL, CHANGES, META.yml, lib/Term/ReadLine/Perl5.pm,

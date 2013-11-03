@@ -1,61 +1,66 @@
 # -*- Perl -*-
-# FIXME: should be moved into Perl5 directory.
 =pod
 
 =head1 NAME
 
-Term::ReadLine::readline
+Term::ReadLine::Perl5::readline
 
 =head1 DESCRIPTION
 
-Wraps what was initially Perl4 (and now partially Perl4) into a fake
-Perl5 pseudo-module.
-
-The mismatch of the package name, C<readline> and file name
-C<Term::ReadLine::readline> was intentional to make is harder to abuse
-this (very fragile) code...
+Wraps what was initially Perl4 into a Perl5 module. It is ugly, but at
+least its a start.
 
 =cut
 use warnings;
-package readline;
+package Term::ReadLine::Perl5::readline;
 
-$VERSION = '1.13';
+$VERSION = '1.20';
+
+#
+# Separation into my and vars needs more work.
+# use strict 'vars';
+#
+use vars qw(@KeyMap %KeyMap $rl_screen_width $rl_start_default_at_beginning
+          $rl_completion_function $rl_basic_word_break_characters
+          $rl_completer_word_break_characters $rl_special_prefixes
+          $rl_max_numeric_arg $rl_OperateCount
+          $KillBuffer $dumb_term $stdin_not_tty $InsertMode
+          $mode $winsz $force_redraw
+          $minlength $rl_readline_name
+          $rl_NoInitFromFile);
+
+@ISA = qw(Exporter);
+@EXPORT  = qw($minlength);
+
 
 use Term::ReadLine;  # For Term::ReadLine::TermCap::ornaments
 use File::HomeDir;
 use File::Spec;
 use Term::ReadKey;
 
+use Term::ReadLine::Perl5::History;
+
 my $autoload_broken = 1;        # currently: defined does not work with a-l
 my $useioctl = 1;
 my $usestty = 1;
 my $max_include_depth = 10;     # follow $include's in init files this deep
+
+
 my $HOME = File::HomeDir->my_home;
 
 BEGIN {                 # Some old systems have ioctl "unsupported"
-  *ioctl = sub ($$$) { eval { ioctl $_[0], $_[1], $_[2] } };
+  *ioctl = sub ($$$) { eval { CORE::ioctl $_[0], $_[1], $_[2] } };
 }
 
 $rl_getc = \&rl_getc;
+$minlength = 1;
 
 &preinit;
 &init;
 
-# use strict 'vars';
-#
-# # Separation into my and vars needs some thought...
-#
-use vars qw(@KeyMap %KeyMap $rl_screen_width $rl_start_default_at_beginning
-          $rl_completion_function $rl_basic_word_break_characters
-          $rl_completer_word_break_characters $rl_special_prefixes
-          $rl_readline_name @rl_History $rl_MaxHistorySize
-          $rl_max_numeric_arg $rl_OperateCount
-          $KillBuffer $dumb_term $stdin_not_tty $InsertMode
-          $mode $winsz
-          $rl_NoInitFromFile);
 #
 # my ($InputLocMsg, $term_OUT, $term_IN);
-# my ($winsz_t, $TIOCGWINSZ, $winsz, $rl_margin, $hooj, $force_redraw);
+# my ($winsz_t, $TIOCGWINSZ, $winsz, $rl_margin);
 # my ($hook, %var_HorizontalScrollMode, %var_EditingMode, %var_OutputMeta);
 # my ($var_HorizontalScrollMode, $var_EditingMode, $var_OutputMeta);
 # my (%var_ConvertMeta, $var_ConvertMeta, %var_MarkModifiedLines, $var_MarkModifiedLines);
@@ -63,7 +68,7 @@ my $inDOS;
 # my (%var_PreferVisibleBell, $var_PreferVisibleBell);
 # my (%var_TcshCompleteMode, $var_TcshCompleteMode);
 # my (%var_CompleteAddsuffix, $var_CompleteAddsuffix);
-# my ($minlength, @winchhooks);
+# my (@winchhooks);
 # my ($BRKINT, $ECHO, $FIONREAD, $ICANON, $ICRNL, $IGNBRK, $IGNCR, $INLCR,
 #     $ISIG, $ISTRIP, $NCCS, $OPOST, $RAW, $TCGETS, $TCOON, $TCSETS, $TCXONC,
 #     $TERMIOS_CFLAG, $TERMIOS_IFLAG, $TERMIOS_LFLAG, $TERMIOS_NORMAL_IOFF,
@@ -121,7 +126,7 @@ sub get_window_size
         &redisplay();
     }
 
-    for $hook (@winchhooks) {
+    for my $hook (@winchhooks) {
       eval {&$hook()}; warn $@ if $@ and $^W;
     }
     local $^W = 0;              # WINCH may be illegal...
@@ -179,9 +184,6 @@ sub preinit
         ${"var_$_"}{'Off'} = 0;
         ${"var_$_"}{'On'} = 1;
     }
-
-    # To conform to interface
-    $minlength = 1 unless defined $minlength;
 
     # WINCH hooks
     @winchhooks = ();
@@ -274,8 +276,6 @@ sub preinit
     $rl_special_prefixes = '';
     ($rl_readline_name = $0) =~ s#.*[/\\]## if !defined($rl_readline_name);
 
-    @rl_History=() if !(@rl_History);
-    $rl_MaxHistorySize = 100 if !defined($rl_MaxHistorySize);
     $rl_max_numeric_arg = 200 if !defined($rl_max_numeric_arg);
     $rl_OperateCount = 0 if !defined($rl_OperateCount);
 
@@ -1587,7 +1587,7 @@ sub redisplay
         local($new, $Dinc, $c) = ('', 0);
 
         ## Look at each character of $dline in turn.....
-        for ($i = 0; $i < length($dline); $i++) {
+        for (my $i = 0; $i < length($dline); $i++) {
             $c = substr($dline, $i, 1);
 
             ## A tab to expand...
@@ -1896,47 +1896,13 @@ Return the line as-is to the user.
 
 sub F_AcceptLine
 {
-    &add_line_to_history;
+    &add_line_to_history($line, $minlength);
     $AcceptLine = $line;
     local $\ = '';
     print $term_OUT "\r\n";
     $force_redraw = 0;
     (pos $line) = undef;        # Another way to force redraw...
 }
-
-=head2 add_line_to_history
-
-Insert into history list if:
-
-=over
-
-=item *
-
-bigger than the minimal length
-
-=item *
-
-not same as last entry
-
-=back
-
-=cut
-
-sub add_line_to_history
-{
-    if (length($line) >= $minlength
-        && (!@rl_History || $rl_History[$#rl_History] ne $line)
-       ) {
-        ## if the history list is full, shift out an old one first....
-        while (@rl_History >= $rl_MaxHistorySize) {
-            shift(@rl_History);
-            $rl_HistoryIndex--;
-        }
-
-        push(@rl_History, $line); ## tack new one on the end
-    }
-}
-
 
 sub remove_selection {
     if ( $rl_first_char && length $line && $rl_default_selected ) {
@@ -2045,8 +2011,7 @@ sub OnSecondByte
     ## have one- and two-byte characters interspersed, so can't tell
     ## without starting from some know location.....
     ##
-    local($i);
-    for ($i = 0; $i < $_[0]; $i++) {
+    for (my $i = 0; $i < $_[0]; $i++) {
         next if ord(substr($line, $i, 1)) < 0x80;
         ## We have the first byte... must bump up $i to skip past the 2nd.
         ## If that one we're skipping past is the index, it should be changed
@@ -2161,7 +2126,8 @@ break character, false otherwise.
 
 sub WordBreak
 {
-    index($rl_basic_word_break_characters, substr($line,$_[0],1)) != -1;
+    index($rl_basic_word_break_characters,
+	  substr($line,$_[0],1)) != -1;
 }
 
 sub getstate
@@ -2617,6 +2583,7 @@ sub DoSearch
     local $reverse = shift;     # Used in search()
     my $oldline = $line;
     my $oldD = $D;
+    my $tmp;
 
     my $searchstr = '';  ## string we're searching for
     my $I = -1;              ## which history line
@@ -3223,7 +3190,7 @@ sub completion_matches
     if (@matches) {
         my $prefix = $matches[0];
         my $len = length($prefix);
-        for ($i = 1; $i < @matches; $i++) {
+        for (my $i = 1; $i < @matches; $i++) {
             next if substr($matches[$i], 0, $len) eq $prefix;
             $prefix = substr($prefix, 0, --$len);
             last if $len == 0;
@@ -3582,7 +3549,7 @@ sub F_SaveLine
     $line = '#'.$line;
     &redisplay();
     print $term_OUT "\r\n";
-    &add_line_to_history;
+    &add_line_to_history($line, $minlength);
     $line_for_revert = '';
     &get_line_from_history(scalar @rl_History);
     &F_ViInput() if $Vi_mode;
