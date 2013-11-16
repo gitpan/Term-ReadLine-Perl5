@@ -1,5 +1,21 @@
 2013-11-16  Rocky Bernstein <rocky@cpan.org>
 
+	* CHANGES, lib/Term/ReadLine/Perl5.pm,
+	lib/Term/ReadLine/Perl5/Tie.pm, lib/Term/ReadLine/Perl5/readline.pm: 
+	Get ready for release 1.22
+
+2013-11-16  Rocky Bernstein <rocky@cpan.org>
+
+	* lib/Term/ReadLine/Perl5/Tie.pm: Broke build.
+
+2013-11-16  Rocky Bernstein <rocky@cpan.org>
+
+	* CHANGES, META.yml, lib/Term/ReadLine/Perl5.pm,
+	lib/Term/ReadLine/Perl5/Tie.pm: Past release now... bump version
+	into testing.
+
+2013-11-16  Rocky Bernstein <rocky@cpan.org>
+
 	* lib/Term/ReadLine/Perl5.pm, lib/Term/ReadLine/Perl5/Tie.pm,
 	lib/Term/ReadLine/Perl5/readline.pm: Get ready for release 1.21
 

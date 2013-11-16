@@ -32,7 +32,7 @@
    "provides" : {
       "Term::ReadLine::Perl5" : {
          "file" : "lib/Term/ReadLine/Perl5.pm",
-         "version" : "1.21"
+         "version" : "1.22"
       },
       "Term::ReadLine::Perl5::History" : {
          "file" : "lib/Term/ReadLine/Perl5/History.pm",
@@ -44,7 +44,7 @@
       },
       "Term::ReadLine::Perl5::readline" : {
          "file" : "lib/Term/ReadLine/Perl5/readline.pm",
-         "version" : "1.21"
+         "version" : "1.22"
       }
    },
    "release_status" : "stable",
@@ -59,7 +59,7 @@
          "url" : "http://github.com/rocky/p5-Term-ReadLine-Perl5"
       }
    },
-   "version" : "1.21",
+   "version" : "1.22",
    "x_test_requires" : {
       "Test::More" : "0.81",
       "rlib" : "0.02"
