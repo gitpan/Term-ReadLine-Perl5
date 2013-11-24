@@ -1,37 +1,10 @@
 # -*- Perl -*-
+# POD documentation is after __END__
 package Term::ReadLine::Perl5;
 use warnings; use strict;
 no warnings 'once';
 
-our $VERSION = '1.22';
-
-=head1 NAME
-
-Term::ReadLine::Perl5 - A Perl5 implementation GNU Readline
-
-=head1 SYNOPSIS
-
-  use Term::ReadLine::Perl5;
-  $term = Term::ReadLine::Perl5->new 'ProgramName';
-  while ( defined ($_ = $term->readline('prompt>')) ) {
-    ...
-  }
-
-=head1 DESCRIPTION
-
-=head2 Overview
-
-This is a implementation of the GNU Readline/History Library written
-in Perl5.
-
-GNU Readline reads lines from an interactive terminal with I<emacs> or
-I<vi> editing capabilities. It provides as mechanism for saving
-history of previous input.
-
-This package typically used in command-line interfaces and REPLs (Read,
-Eval, Print Loops).
-
-=cut
+our $VERSION = '1.23';
 
 use Carp;
 use Term::ReadLine::Perl5::History;
@@ -60,37 +33,27 @@ my %features = (
 
 # Note: Some additional feature via Term::ReadLine::Stub are added when a "new" is done
 
-=head2 SUBROUTINES
-
-=cut
-
+# Term::ReadLine::Perl->new($name, [*IN, [*OUT])
+# Returns a handle for subsequent calls to readline functions.
+#
+# $name is the name of the application.
+#
+# Optionally you can add two arguments for input and output
+# filehandles. These arguments should be globs.
+#
+# This routine might also be called via
+# Term::ReadLine->new($term_name) if other Term::ReadLine packages
+# like Term::ReadLine::Gnu is not available or if you have
+# $ENV{PERL_RL} set to 'Perl5';
+#
+# At present, because this code has lots of global state, we currently don't
+# support more than one readline instance.
+#
+# Somebody please volunteer to rewrite this code!
 sub readline {
   shift;
   &Term::ReadLine::Perl5::readline::readline(@_);
 }
-
-=head2
-
-C<Term::ReadLine::Perl->new($name, [*IN, [*OUT])>
-
-Returns a handle for subsequent calls to readline functions.
-
-C<$name> is the name of the application.
-
-Optionally you can add two arguments for input and output
-filehandles. These arguments should be globs.
-
-This routine might also be called via
-C<Term::ReadLine->new($term_name)> if other Term::ReadLine packages
-like L<Term::ReadLine::Gnu> is not available or if you have
-C<$ENV{PERL_RL}> set to 'Perl5';
-
-At present, because this code has lots of global state, we currently don't
-support more than one readline instance.
-
-Somebody please volunteer to rewrite this code!
-
-=cut
 
 sub new {
   require Term::ReadLine;
@@ -153,18 +116,14 @@ sub newTTY {
 
 sub ReadLine {'Term::ReadLine::Perl5'}
 
-=head2 stifle_history
-
-C<stifle_history($max)>
-
-Stifle or put a cap on thethe history list, remembering only C<$max>
-number of lines.
-
-=cut
-
+# stifle_history($max)
+#
+# Stifle or put a cap on the history list, remembering only C<$max>
+# number of lines.
+#
 ### FIXME: stifle_history is still here because it updates $attribs.
 ## Pass a reference?
-sub stifle_history {
+sub stifle_history($$) {
   shift;
   my $max = shift;
   $max = 0 if !defined($max) || $max < 0;
@@ -179,18 +138,13 @@ sub stifle_history {
 }
 
 
-=head2
-
-C<MinLine([$minlength])>
-
-If C<$minlength> is given, set C<$readline::minlength> the minimum
-length a $line for it to go into the readline history.
-
-The previous value is returned.
-
-=cut
-
-sub MinLine {
+# MinLine([$minlength])
+#
+# If $minlength is given, set $readline::minlength the minimum
+# length a $line for it to go into the readline history.
+#
+# The previous value is returned.
+sub MinLine($;$) {
     my $old = $minlength;
     $minlength = $_[1] if @_ == 2;
     return $old;
@@ -222,20 +176,15 @@ sub Attribs {
 *WriteHistory           = \&Term::ReadLine::Perl5::History::WriteHistory;
 
 # Backward compatibility:
-*addhistory = \&Term::ReadLine::Perl5::add_History;
+*addhistory = \&Term::ReadLine::Perl5::add_history;
 *StifleHistory = \&stifle_history;
 
-
-=head2 remove_history
-
-C<remove_history($which)>
-
-Remove history element C<$which> from the history. The removed
-element is returned.
-
-=cut
-
-sub remove_history {
+# remove_history($which)>
+#
+# Remove history element C<$which> from the history. The removed
+# element is returned.
+#
+sub remove_history($$) {
   shift;
   my $which = $_[0];
   return undef if
@@ -254,32 +203,128 @@ sub remove_history {
 
 __END__
 
-=head1 AUTHORS
+=encoding utf8
 
-Rocky Bernstein (current maintainer)
-Ilya Zakharevich (Term::ReadLine::Perl)
-Jeffrey Friedl (Original Perl4 code)
+=head1 NAME
 
-Contributors:
-Jordan M. Adler
-Clive Holloway
+Term::ReadLine::Perl5 - A Perl5 implementation GNU Readline
 
-=head1 SEE ALSO
+=head1 SYNOPSIS
 
-=over 4
+  use Term::ReadLine::Perl5;
+  $term = new Term::ReadLine::Perl5 'ProgramName';
+  while ( defined ($_ = $term->readline('prompt>')) ) {
+    ...
+  }
 
-=item GNU Readline Library Manual
+=head1 DESCRIPTION
 
-=item GNU History Library Manual
+=head2 Overview
 
-=item L<Term::ReadLine>
+This is a implementation of the GNU Readline/History Library written
+in Perl5.
 
-=item L<Term::ReadLine::readline>
+GNU Readline reads lines from an interactive terminal with I<emacs> or
+I<vi> editing capabilities. It provides as mechanism for saving
+history of previous input.
 
-=item L<Term::ReadLine::Perl>
+This package typically used in command-line interfaces and REPLs (Read,
+Eval, Print, Loop).
 
-=item L<Term::ReadLine::Gnu>
+=head2 SUBROUTINES
 
-=back
+=head3
+
+C<Term::ReadLine::Perl-E<gt>new($name, [*IN, [*OUT])>
+
+Returns a handle for subsequent calls to readline functions.
+
+C<$name> is the name of the application.
+
+Optionally you can add two arguments for input and output
+filehandles. These arguments should be globs.
+
+This routine might also be called via
+C<Term::ReadLine-E<gt>new($term_name)> if other Term::ReadLine packages
+like L<Term::ReadLine::Gnu> is not available or if you have
+C<$ENV{PERL_RL}> set to 'Perl5';
+
+At present, because this code has lots of global state, we currently don't
+support more than one readline instance.
+
+Somebody please volunteer to rewrite this code!
+
+=head3 stifle_history
+
+C<stifle_history($max)>
+
+Stifle or put a cap on the history list, remembering only C<$max>
+number of lines.
+
+=head3 Minline
+
+C<MinLine([$minlength])>
+
+If C<$minlength> is given, set C<$readline::minlength> the minimum
+length a $line for it to go into the readline history.
+
+The previous value is returned.
+
+=head3 remove_history
+
+C<remove_history($which)>
+
+Remove history element C<$which> from the history. The removed
+element is returned.
+
+=head1 INSTALL
+
+To install this module type:
+
+    perl Build.PL
+    make
+    # for interactive testing:
+    make test
+    # for non-interactive testing
+    AUTOMATED_TESTING=1 make test
+    make install # might need sudo make install
+
+=head1 DEVELOPMENT HISTORY
+
+The first implementation was in Perl4 (mostly) by Jeffrey
+Friedl. He referenced FSF the code Roland Schemers F<line_edit.pl>.
+
+Ilya Zakharevich turned this into a Perl5 module called
+L<Term::ReadLine::Perl>. Some of the changes he made include using
+L<Term::ReadKey> if present, and made this work under I<xterm>. The
+file F<Term/ReadLine/Perl5/CHANGES> up to but not including version
+1.04 contains a list of his changes.
+
+Starting with version 1.04 Rocky Bernstein forked the code, adding GNU
+readline history. He put it into a public git repository (git) and
+also started modernizing it by doing the things CPAN prefers,
+including adding POD documentation, non-interactive tests, and
+respecting CPAN module namespaces.
+
+=head1 BUGS
+
+Bugs are accepted via the L<github issues
+tracker|https://github.com/rocky/p5-Term-ReadLine-Perl5/issues>.
+
+=head1 LICENSE
+
+Copyright (c) 2013 Rocky Bernstein.
+Copyright (c) 1995 Ilya Zakharevich.
+
+This program is distributed WITHOUT ANY WARRANTY, including but not
+limited to the implied warranties of merchantability or fitness for a
+particular purpose.
+
+The program is free software. You may distribute it and/or modify it
+under the terms of the GNU General Public License as published by the
+Free Software Foundation (either version 2 or any later version) and
+the Perl Artistic License as published by O’Reilly Media, Inc. Please
+open the files named gpl-2.0.txt and Artistic for a copy of these
+licenses.
 
 =cut

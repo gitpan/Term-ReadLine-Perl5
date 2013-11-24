@@ -4,6 +4,8 @@
 
 =end html
 
+=encoding utf8
+
 =head1 NAME
 
 Term::ReadLine::Perl5 - A Perl5 implementation GNU Readline
@@ -30,6 +32,52 @@ history of previous input.
 This package typically used in command-line interfaces and REPLs (Read,
 Eval, Print, Loop).
 
+=head2 SUBROUTINES
+
+=head3
+
+C<Term::ReadLine::Perl-E<gt>new($name, [*IN, [*OUT])>
+
+Returns a handle for subsequent calls to readline functions.
+
+C<$name> is the name of the application.
+
+Optionally you can add two arguments for input and output
+filehandles. These arguments should be globs.
+
+This routine might also be called via
+C<Term::ReadLine-E<gt>new($term_name)> if other Term::ReadLine packages
+like L<Term::ReadLine::Gnu> is not available or if you have
+C<$ENV{PERL_RL}> set to 'Perl5';
+
+At present, because this code has lots of global state, we currently don't
+support more than one readline instance.
+
+Somebody please volunteer to rewrite this code!
+
+=head3 stifle_history
+
+C<stifle_history($max)>
+
+Stifle or put a cap on the history list, remembering only C<$max>
+number of lines.
+
+=head3 Minline
+
+C<MinLine([$minlength])>
+
+If C<$minlength> is given, set C<$readline::minlength> the minimum
+length a $line for it to go into the readline history.
+
+The previous value is returned.
+
+=head3 remove_history
+
+C<remove_history($which)>
+
+Remove history element C<$which> from the history. The removed
+element is returned.
+
 =head1 INSTALL
 
 To install this module type:
@@ -42,7 +90,7 @@ To install this module type:
     AUTOMATED_TESTING=1 make test
     make install # might need sudo make install
 
-=head1 HISTORY
+=head1 DEVELOPMENT HISTORY
 
 The first implementation was in Perl4 (mostly) by Jeffrey
 Friedl. He referenced FSF the code Roland Schemers F<line_edit.pl>.
@@ -66,6 +114,18 @@ tracker|https://github.com/rocky/p5-Term-ReadLine-Perl5/issues>.
 
 =head1 LICENSE
 
-See the contents of the file LICENSE
+Copyright (c) 2013 Rocky Bernstein.
+Copyright (c) 1995 Ilya Zakharevich.
+
+This program is distributed WITHOUT ANY WARRANTY, including but not
+limited to the implied warranties of merchantability or fitness for a
+particular purpose.
+
+The program is free software. You may distribute it and/or modify it
+under the terms of the GNU General Public License as published by the
+Free Software Foundation (either version 2 or any later version) and
+the Perl Artistic License as published by O’Reilly Media, Inc. Please
+open the files named gpl-2.0.txt and Artistic for a copy of these
+licenses.
 
 =cut

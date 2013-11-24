@@ -1,3 +1,46 @@
+2013-11-24  Rocky Bernstein <rocky@cpan.org>
+
+	* lib/Term/ReadLine/Perl5/readline.pm: Get ready for release 1.23
+
+2013-11-24  Rocky Bernstein <rocky@cpan.org>
+
+	* README.pod, lib/Term/ReadLine/Perl5.pm: Set encoding UTF-8.
+
+2013-11-24  Rocky Bernstein <rocky@cpan.org>
+
+	* MANIFEST, t/30test-interactive.t, test.pl: Interactive test needs
+	to not be in directory t/
+
+2013-11-24  Rocky Bernstein <rocky@cpan.org>
+
+	* README.pod, lib/Term/ReadLine/Perl5.pm: Update Perl pod, 2nd try
+
+2013-11-24  Rocky Bernstein <rocky@cpan.org>
+
+	* CHANGES, README.pod, lib/Term/ReadLine/Perl5.pm: Update Perl pod
+
+2013-11-24  Rocky Bernstein <rocky@cpan.org>
+
+	* Build.PL, CHANGES, LICENSE, MANIFEST, README.pod,
+	lib/Term/ReadLine/Perl5.pm, t/30test-interactive.t, test.pl: Add
+	reasonable CPANTS suggestions: revise license; move test.pl to t/;
+	add minimum perl version to Build.PL
+
+2013-11-24  Rocky Bernstein <rocky@cpan.org>
+
+	* lib/Term/ReadLine/Perl5.pm, t/10test-history.t: Add test for issue
+	#3 - addhistory.
+
+2013-11-23  Rocky Bernstein <rocky@cpan.org>
+
+	* CHANGES, lib/Term/ReadLine/Perl5.pm: Typo add_History ->
+	add_history. issue #3. Thanks to Lester Highthower
+
+2013-11-16  Rocky Bernstein <rocky@cpan.org>
+
+	* META.yml, lib/Term/ReadLine/Perl5/Tie.pm: Another try at getting
+	Term::ReadLine::Perl5::Tie version in correctly.
+
 2013-11-16  Rocky Bernstein <rocky@cpan.org>
 
 	* CHANGES, lib/Term/ReadLine/Perl5.pm,
