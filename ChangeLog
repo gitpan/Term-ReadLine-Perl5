@@ -1,3 +1,10 @@
+2013-11-25  Rocky Bernstein <rocky@cpan.org>
+
+	* Build.PL, CHANGES, LICENSE, MANIFEST, META.yml,
+	lib/Term/ReadLine/Perl5.pm, lib/Term/ReadLine/Perl5/Tie.pm,
+	lib/Term/ReadLine/Perl5/readline.pm: Administrivia. Get ready for
+	release 1.24
+
 2013-11-24  Rocky Bernstein <rocky@cpan.org>
 
 	* lib/Term/ReadLine/Perl5/readline.pm: Get ready for release 1.23
