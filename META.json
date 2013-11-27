@@ -16,7 +16,10 @@
    "prereqs" : {
       "build" : {
          "requires" : {
-            "File::HomeDir" : "0.81"
+            "File::HomeDir" : "0.81",
+            "File::Spec" : "0",
+            "Term::ReadKey" : "0",
+            "rlib" : "0.02"
          }
       },
       "configure" : {
@@ -31,6 +34,7 @@
             "File::Spec" : "0",
             "Term::ReadKey" : "0",
             "perl" : "5.006002",
+            "rlib" : "0.02",
             "version" : "0"
          }
       }
@@ -38,7 +42,7 @@
    "provides" : {
       "Term::ReadLine::Perl5" : {
          "file" : "lib/Term/ReadLine/Perl5.pm",
-         "version" : "1.24"
+         "version" : "1.25"
       },
       "Term::ReadLine::Perl5::History" : {
          "file" : "lib/Term/ReadLine/Perl5/History.pm",
@@ -46,11 +50,11 @@
       },
       "Term::ReadLine::Perl5::Tie" : {
          "file" : "lib/Term/ReadLine/Perl5/Tie.pm",
-         "version" : "1.24"
+         "version" : "1.25"
       },
       "Term::ReadLine::Perl5::readline" : {
          "file" : "lib/Term/ReadLine/Perl5/readline.pm",
-         "version" : "1.24"
+         "version" : "1.25"
       }
    },
    "release_status" : "stable",
@@ -65,7 +69,7 @@
          "url" : "http://github.com/rocky/p5-Term-ReadLine-Perl5"
       }
    },
-   "version" : "1.24",
+   "version" : "1.25",
    "x_test_requires" : {
       "File::HomeDir" : "0.81",
       "rlib" : "0.02"

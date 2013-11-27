@@ -1,3 +1,15 @@
+2013-11-27  Rocky Bernstein <rocky@cpan.org>
+
+	* CHANGES, lib/Term/ReadLine/Perl5.pm,
+	lib/Term/ReadLine/Perl5/History.pm, lib/Term/ReadLine/Perl5/Tie.pm,
+	lib/Term/ReadLine/Perl5/readline.pm, t/10test-history.t: Get ready
+	for relase 1.25
+
+2013-11-27  Rocky Bernstein <rocky@cpan.org>
+
+	* Build.PL, META.yml, lib/Term/ReadLine/Perl5/readline.pm: More
+	boilerplate stuff to coax smokers to not fail
+
 2013-11-25  Rocky Bernstein <rocky@cpan.org>
 
 	* Build.PL, CHANGES, LICENSE, MANIFEST, META.yml,
