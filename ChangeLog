@@ -1,5 +1,16 @@
 2013-11-30  Rocky Bernstein <rocky@cpan.org>
 
+	* lib/Term/ReadLine/Perl5/readline.pm: One more get_window_size doc
+	change.
+
+2013-11-30  Rocky Bernstein <rocky@cpan.org>
+
+	* META.yml, lib/Term/ReadLine/Perl5/readline.pm: Document and
+	deprecate get_window_size(). Also, if it can't get the window size,
+	don't die.
+
+2013-11-30  Rocky Bernstein <rocky@cpan.org>
+
 	* Build.PL, CHANGES, META.yml, lib/Term/ReadLine/Perl5.pm,
 	lib/Term/ReadLine/Perl5/Tie.pm, lib/Term/ReadLine/Perl5/readline.pm: 
 	Get ready for release 1.28
