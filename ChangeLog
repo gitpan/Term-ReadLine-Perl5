@@ -1,3 +1,23 @@
+2014-05-11  Rocky Bernstein <rocky@cpan.org>
+
+	* lib/Term/ReadLine/Perl5.pm, lib/Term/ReadLine/Perl5/Tie.pm,
+	lib/Term/ReadLine/Perl5/readline.pm, t/10test-readline.t: 
+	rl_filename_list no longer adds classifier '*', @' suffixes, but
+	does include '/' for directories. Term::ReadLine::GNU and GNU
+	Readline do not add these either. rl_filename_list handles some full
+	tilde expansions, but not partial ones like GNU Readline does.  Also, get ready for 1.30 release.
+
+2014-03-24  Rocky Bernstein <rocky@cpan.org>
+
+	* lib/Term/ReadLine/Perl5/Tie.pm,
+	lib/Term/ReadLine/Perl5/readline.pm: Don't smash SIG{WINCH}. Fewer
+	critics please - we know this is ugly.
+
+2013-11-30  Rocky Bernstein <rocky@cpan.org>
+
+	* : commit 9c7b8ef9810da22ed7b6c974c1e81b660ab09965 Author: Rocky
+	Bernstein <rocky@cpan.org> Date:   Sat Nov 30 12:50:57 2013 -0500
+
 2013-11-30  Rocky Bernstein <rocky@cpan.org>
 
 	* lib/Term/ReadLine/Perl5/readline.pm: One more get_window_size doc
