@@ -1,11 +1,46 @@
+2014-05-13  Rocky Bernstein <rocky@cpan.org>
+
+	* CHANGES, lib/Term/ReadLine/Perl5.pm,
+	lib/Term/ReadLine/Perl5/readline.pm: Get ready for release 1.31
+
+2014-05-13  Rocky Bernstein <rocky@cpan.org>
+
+	* t/10test-filelist.t: Skip some tests if we don't have getpwuid,
+	e.g. Strawberry Perl on Windows
+
+2014-05-13  Rocky Bernstein <rocky@cpan.org>
+
+	* lib/Term/ReadLine/Perl5/readline-guide.pod,
+	lib/Term/ReadLine/Perl5/readline.pm,
+	lib/Term/ReadLine/Perl5/readline.pod: readline.pod ->
+	readline-guide.pod and go over it
+
+2014-05-13  Rocky Bernstein <rocky@cpan.org>
+
+	* lib/Term/ReadLine/Perl5/readline.pod, t/10test-filelist.t: In ~ vs
+	~name test, make sure expansion doesn't have trailing / and is not a
+	symbolic link
+
 2014-05-11  Rocky Bernstein <rocky@cpan.org>
 
-	* lib/Term/ReadLine/Perl5.pm, lib/Term/ReadLine/Perl5/Tie.pm,
-	lib/Term/ReadLine/Perl5/readline.pm, t/10test-readline.t: 
-	rl_filename_list no longer adds classifier '*', @' suffixes, but
-	does include '/' for directories. Term::ReadLine::GNU and GNU
-	Readline do not add these either. rl_filename_list handles some full
-	tilde expansions, but not partial ones like GNU Readline does.  Also, get ready for 1.30 release.
+	* .travis.yml: travis 2nd try
+
+2014-05-11  Rocky Bernstein <rocky@cpan.org>
+
+	* .travis.yml, META.yml: Get travis working again by adding
+	Module::Build dependecy for it
+
+2014-05-11  Rocky Bernstein <rocky@cpan.org>
+
+	* .gitignore, CHANGES, MANIFEST, MANIFEST.SKIP,
+	lib/Term/ReadLine/Perl5.pm, lib/Term/ReadLine/Perl5/Tie.pm,
+	lib/Term/ReadLine/Perl5/readline.pm, perlcritic.rc,
+	t/10test-filelist.t, t/10test-readline.t: rl_filename_list no longer
+	adds classifier '*', @', '=' suffixes, but does include '/' for
+	directories. Term::ReadLine::GNU and GNU Readline do not add these
+	either. rl_filename_list handles some full tilde expansions, e.g. ~
+	and ~root, but not partial ones like ~ro, like GNU Readline does.  This is incompatible change, but T:R:P was incompatible to begin
+	with. Use rl_filename_list_deprecated for the old behavior.  Also, get ready for 1.30 release.
 
 2014-03-24  Rocky Bernstein <rocky@cpan.org>
 
