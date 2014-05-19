@@ -1,3 +1,19 @@
+2014-05-19  Rocky Bernstein <rocky@cpan.org>
+
+	* CHANGES, lib/Term/ReadLine/Perl5.pm,
+	lib/Term/ReadLine/Perl5/readline.pm: Get ready for release 1.33
+
+2014-05-14  Rocky Bernstein <rocky@cpan.org>
+
+	* Build.PL, lib/Term/ReadLine/Perl5/readline.pm: Fix up ~ expansion
+	somewhat. More POD in readline.pm
+
+2014-05-14  Rocky Bernstein <rocky@cpan.org>
+
+	* META.yml, lib/Term/ReadLine/Perl5.pm,
+	lib/Term/ReadLine/Perl5/readline.pm, t/10test-filelist.t: Start
+	tilde completion
+
 2014-05-14  Rocky Bernstein <rocky@cpan.org>
 
 	* Build.PL, CHANGES, META.yml, lib/Term/ReadLine/Perl5.pm,
