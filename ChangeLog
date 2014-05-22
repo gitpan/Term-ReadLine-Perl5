@@ -1,3 +1,13 @@
+2014-05-21  me <rocky@muffin-92.(none)>
+
+	* lib/Term/ReadLine/Perl5/readline.pm, t/10test-filelist.t: Fix up
+	tilde expansion on FreeBSD
+
+2014-05-20  Rocky Bernstein <rocky@cpan.org>
+
+	* lib/Term/ReadLine/Perl5/readline.pm, t/10test-filelist.t: Remove a
+	getwuid warning
+
 2014-05-20  Rocky Bernstein <rocky@cpan.org>
 
 	* Build.PL, CHANGES, META.yml, lib/Term/ReadLine/Perl5.pm,
