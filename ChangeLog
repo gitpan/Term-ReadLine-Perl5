@@ -1,3 +1,45 @@
+2014-05-25  Rocky Bernstein <rocky@cpan.org>
+
+	* CHANGES, lib/Term/ReadLine/Perl5/readline.pm: Get ready for
+	release 1.36
+
+2014-05-25  Rocky Bernstein <rocky@cpan.org>
+
+	* lib/Term/ReadLine/Perl5/readline.pm: Attempt to organize along the
+	lines of the GNU ReadLine manaual. Add verbatim doc from that
+
+2014-05-24  Rocky Bernstein <rocky@cpan.org>
+
+	* MANIFEST, demo/shell.pl, lib/Term/ReadLine/Perl5/readline.pm: 
+	Reorganize code. Start demo program
+
+2014-05-23  Rocky Bernstein <rocky@cpan.org>
+
+	* lib/Term/ReadLine/Perl5/readline.pm: Add function TildeExpand -
+	untested right now
+
+2014-05-23  Rocky Bernstein <rocky@cpan.org>
+
+	* Build.PL, CHANGES, MANIFEST, MANIFEST.SKIP,
+	lib/Term/ReadLine/Perl5/.gitignore,
+	lib/Term/ReadLine/Perl5/TermCap.pm,
+	lib/Term/ReadLine/Perl5/readline.pm: Remove cyclic depedency between
+	Term::ReadLine and Term::ReadLine::Perl5 by adding
+	Term::ReadLine::Perl5::TermCap and removing the dependency on
+	Term::ReadLine::readline on Term::ReadLine.
+
+2014-05-22  Rocky Bernstein <rocky@cpan.org>
+
+	* : commit b15351b2a3adc720270805931f801db155061562 Author: Rocky
+	Bernstein <rocky@cpan.org> Date:   Thu May 22 05:50:19 2014 -0400
+
+2014-05-21  me <rocky@muffin-92.(none)>
+
+	* CHANGES, lib/Term/ReadLine/Perl5.pm,
+	lib/Term/ReadLine/Perl5/Tie.pm,
+	lib/Term/ReadLine/Perl5/readline.pm, t/10test-filelist.t: Get ready
+	for release 1.35
+
 2014-05-21  me <rocky@muffin-92.(none)>
 
 	* lib/Term/ReadLine/Perl5/readline.pm, t/10test-filelist.t: Fix up
