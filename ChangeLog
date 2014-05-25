@@ -1,7 +1,30 @@
 2014-05-25  Rocky Bernstein <rocky@cpan.org>
 
-	* CHANGES, lib/Term/ReadLine/Perl5/readline.pm: Get ready for
-	release 1.36
+	* CHANGES: Get ready for release 1.37
+
+2014-05-25  Rocky Bernstein <rocky@cpan.org>
+
+	* Build.PL, lib/Term/ReadLine/Perl5.pm,
+	lib/Term/ReadLine/Perl5/Tie.pm, lib/Term/ReadLine/Perl5/readline.pm: 
+	Get ready for release 1.37
+
+2014-05-25  Rocky Bernstein <rocky@cpan.org>
+
+	* demo/shell.pl, lib/Term/ReadLine/Perl5/History.pm,
+	lib/Term/ReadLine/Perl5/Tie.pm, lib/Term/ReadLine/Perl5/readline.pm: 
+	Work on demo code. Fix broken rl_get. Improve pod
+
+2014-05-25  Rocky Bernstein <rocky@cpan.org>
+
+	* Build.PL, lib/Term/ReadLine/Perl5.pm,
+	lib/Term/ReadLine/Perl5/History.pm,
+	lib/Term/ReadLine/Perl5/readline-guide.pod,
+	lib/Term/ReadLine/Perl5/readline.pm: More documentation hacking
+
+2014-05-25  Rocky Bernstein <rocky@cpan.org>
+
+	* Build.PL, CHANGES, META.yml, lib/Term/ReadLine/Perl5.pm,
+	lib/Term/ReadLine/Perl5/readline.pm: Get ready for release 1.36
 
 2014-05-25  Rocky Bernstein <rocky@cpan.org>
 
