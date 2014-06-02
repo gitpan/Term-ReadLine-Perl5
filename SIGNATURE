@@ -14,24 +14,25 @@ not run its Makefile.PL or Build.PL.
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA1
 
-SHA1 3fffba6ee8f29dca14012259e5bd931827866e66 Build.PL
-SHA1 9f3a8b2b1ae973d586d9352d25d5b1f09ac75f5c CHANGES
-SHA1 6729e00ae7344c387a8f9de0f632d191afbefd37 ChangeLog
+SHA1 79b58d8fd61417d0a73e94934da33d481f4a7dd8 Build.PL
+SHA1 c1cdcfc4da587d02bcbe4f06c099439cd879b0e0 ChangeLog
+SHA1 1bb1cd13ac10c37dddc3ead245124e95f7b494bf Changes
 SHA1 ad35d4ad9e96de51a11677ce075e19731336fa82 GNUmakefile
 SHA1 2cdc6028c730caf1505bafb44a7e46bacd074d01 LICENSE
-SHA1 4628b5cae79e99c6daf33f2dad1d69634c022b27 MANIFEST
-SHA1 42bafb318a4e35bdc3c00f7243fe79a180bc370d META.json
-SHA1 5e386b4bc764b1d537af5dfcc9eb6143b4eeaca8 META.yml
+SHA1 08735e5ed405fe3c0d201e71c20a7ca60722bb6a MANIFEST
+SHA1 0236674398e031eccec7a09ef41a34890ea479b4 META.json
+SHA1 0a55ca85ecef85ef32ce7c3fceb8cc397ed37819 META.yml
 SHA1 b3a63a846921ed50267c1099cc93e5a092a3d165 Makefile.PL
-SHA1 37046eb08e3df744c284c0883745b061dcb6fcb3 README.pod
-SHA1 af7823f752d20e2e125816f4c0ccbe1413b403b7 demo/shell.pl
-SHA1 7af5cc6c21ce73072a87557ff447e20ea9fff139 lib/Term/ReadLine/Perl5.pm
+SHA1 305b123245b3f37a56bfbbf1a5be863d44a56615 README.pod
+SHA1 34febd1c729a6ca9ec5d33f9bf2b56f522af33fe lib/Term/ReadLine/Perl5.pm
 SHA1 19b893fed1e00ce86650d80205fa927380e820c4 lib/Term/ReadLine/Perl5/CHANGES
+SHA1 743cddbbe16bb76b9515f6888ae0f3dda2e4fea6 lib/Term/ReadLine/Perl5/Dumb.pm
 SHA1 0ceee01873244128bbc87e5aa034d6025cec92d1 lib/Term/ReadLine/Perl5/History.pm
+SHA1 f5033185d2014a58b2af611d44402b18e0a2bff0 lib/Term/ReadLine/Perl5/Keymap.pm
 SHA1 8f372cb4d9b2b105427d659572603621bcf9be6a lib/Term/ReadLine/Perl5/TermCap.pm
 SHA1 f615e634d380dfd5253dac2c065839a36a246d44 lib/Term/ReadLine/Perl5/Tie.pm
 SHA1 9ac49bcb5d3e04ac03c0d2f32ba323f6f8eb4aad lib/Term/ReadLine/Perl5/readline-guide.pod
-SHA1 4c3f297dd946e84a7b71a01aaa2b6452012afd7c lib/Term/ReadLine/Perl5/readline.pm
+SHA1 8ac1436f26e55b860a755c0f27d7014adedacab9 lib/Term/ReadLine/Perl5/readline.pm
 SHA1 0028fef9be7783d9eba29ae4d3940cc99cc8d14e t/00test-pod.t
 SHA1 a3646e743fab73ab858718d4a52c603fbc5334b5 t/10test-basic.t
 SHA1 a7d508185f68e83e44ea93c4b2f17f6aacc3a419 t/10test-changecase.t
@@ -40,14 +41,14 @@ SHA1 b231a7a2fd548afce5630b7493f5f53c8d76af1a t/10test-history.t
 SHA1 4037e628905b28712d33b4ef99620ef513ab8d9f t/10test-motion.t
 SHA1 0e958c05285630adf5c48774abeb29b496ddf8cf t/10test-readline.t
 SHA1 404d3f247ec86ceb181407e421932791bcaf3d6e t/15test-unescape.t
-SHA1 e4ea1de6d9c940c1e74a666a4b84ac1f3c0f0064 t/20test-read-input-file.t
+SHA1 233877e27e01d92c9d9743a8c499c8c617b25a90 t/20test-read-input-file.t
 SHA1 a9d474f2aa943b2c7b9df45ad2e677f84d616308 t/Helper.pm
 SHA1 b4e508c02865f0e1d3260109fef54ebca66a8c2e t/data/undo.inputrc
 SHA1 e3fba69ce00546c882c48aa18755f49b994d86be test.pl
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1.4.11 (GNU/Linux)
 
-iEYEARECAAYFAlOCFqQACgkQGo3lAIJ17CFQ8QCeKs4322x51yGOH/A++XB7v3Af
-fLkAoJE5VG6vl9+hBaOz2vVY+JPueRWV
-=ofxh
+iEYEARECAAYFAlOL/NMACgkQGo3lAIJ17CEaywCeNDgXH7wSZEFCH5jHMUqbvAQT
+y4UAoJlQtWzIUDlQ3sskrJQ4jz9QMwWE
+=LxHq
 -----END PGP SIGNATURE-----

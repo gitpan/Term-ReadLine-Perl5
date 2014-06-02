@@ -25,7 +25,7 @@ use File::Glob ':glob';
 
 # no critic
 # Version can be below the version given in Term::ReadLine::Perl5
-our $VERSION = '1.37';
+our $VERSION = '1.38';
 
 #
 # Separation into my and vars needs more work.
@@ -47,16 +47,21 @@ use vars qw(@KeyMap %KeyMap $rl_screen_width $rl_start_default_at_beginning
 
 @ISA     = qw(Exporter);
 @EXPORT  = qw($minlength rl_NoInitFromFile rl_bind rl_set
-              rl_basic_commands rl_filename_list completion_function);
+              rl_read_init_file
+              rl_basic_commands rl_filename_list
+              completion_function);
 
 
 use File::HomeDir;
 use File::Spec;
 use Term::ReadKey;
 
-use rlib '../../..';
-use Term::ReadLine::Perl5::TermCap; # For ornaments
+use rlib '.';
+use Term::ReadLine::Perl5::Dumb;
 use Term::ReadLine::Perl5::History;
+use Term::ReadLine::Perl5::Keymap
+    qw(KeymapEmacs KeymapVi KeymapVicmd KeymapVipos KeymapVisearch);
+use Term::ReadLine::Perl5::TermCap; # For ornaments
 
 my $autoload_broken = 1;        # currently: defined does not work with a-l
 my $useioctl = 1;
@@ -145,11 +150,11 @@ sub preinit
     $var_HorizontalScrollMode{'On'} = 1;
     $var_HorizontalScrollMode{'Off'} = 0;
 
-    $var_EditingMode{'emacs'}    = *emacs_keymap;
-    $var_EditingMode{'vi'}       = *vi_keymap;
-    $var_EditingMode{'vicmd'}    = *vicmd_keymap;
-    $var_EditingMode{'vipos'}    = *vipos_keymap;
-    $var_EditingMode{'visearch'} = *visearch_keymap;
+    $var_EditingMode{'emacs'}    = \@emacs_keymap;
+    $var_EditingMode{'vi'}       = \@vi_keymap;
+    $var_EditingMode{'vicmd'}    = \@vicmd_keymap;
+    $var_EditingMode{'vipos'}    = \@vipos_keymap;
+    $var_EditingMode{'visearch'} = \@visearch_keymap;
 
     ## this is an addition. Very nice.
     $var_TcshCompleteMode = 0;
@@ -196,8 +201,11 @@ sub preinit
     @winchhooks = ();
 
     $inDOS = $^O eq 'os2' || defined $ENV{OS2_SHELL} unless defined $inDOS;
-    eval {require "ioctl.pl"}; ## try to get, don't die if not found.
-    eval {require "sgtty.ph"}; ## try to get, don't die if not found.
+
+    # try to get, don't die if not found.
+    eval {require "ioctl.pl"};
+    eval {require "sgtty.ph"};
+
     if ($inDOS and !defined $TIOCGWINSZ) {
 	$TIOCGWINSZ=0;
 	$TIOCGETP=1;
@@ -298,220 +306,15 @@ sub preinit
     $D = 0;
     $InputLocMsg = ' [initialization]';
 
-    &InitKeymap(*emacs_keymap, 'SelfInsert', 'emacs_keymap',
-                ($inDOS ? () : ('C-@',  'SetMark') ),
-                'C-a',  'BeginningOfLine',
-                'C-b',  'BackwardChar',
-                'C-c',  'Interrupt',
-                'C-d',  'DeleteChar',
-                'C-e',  'EndOfLine',
-                'C-f',  'ForwardChar',
-                'C-g',  'Abort',
-                'M-C-g', 'Abort',
-                'C-h',  'BackwardDeleteChar',
-                "TAB" , 'Complete',
-                "C-j" , 'AcceptLine',
-                'C-k',  'KillLine',
-                'C-l',  'ClearScreen',
-                "C-m" , 'AcceptLine',
-                'C-n',  'NextHistory',
-                'C-o',  'OperateAndGetNext',
-                'C-p',  'PreviousHistory',
-                'C-q',  'QuotedInsert',
-                'C-r',  'ReverseSearchHistory',
-                'C-s',  'ForwardSearchHistory',
-                'C-t',  'TransposeChars',
-                'C-u',  'UnixLineDiscard',
-                ##'C-v', 'QuotedInsert',
-                'C-v',  'HistorySearchForward',
-                'C-w',  'UnixWordRubout',
-                qq/"\cX\cX"/,   'ExchangePointAndMark',
-                qq/"\cX\cR"/,   'ReReadInitFile',
-                qq/"\cX?"/,     'PossibleCompletions',
-                qq/"\cX*"/,     'InsertPossibleCompletions',
-                qq/"\cX\cU"/,   'Undo',
-                qq/"\cXu"/,     'Undo',
-                qq/"\cX\cW"/,   'KillRegion',
-                qq/"\cXw"/,     'CopyRegionAsKill',
-                qq/"\cX\ec\\*"/,        'DoControlVersion',
-                qq/"\cX\ec\0"/, 'SetMark',
-                qq/"\cX\ec\@"/, 'SetMark',
-                qq/"\cX\ec "/,  'SetMark',
-                qq/"\cX\em\\*"/,        'DoMetaVersion',
-                qq/"\cX\@c\\*"/,        'DoControlVersion',
-                qq/"\cX\@c\0"/, 'SetMark',
-                qq/"\cX\@c\@"/, 'SetMark',
-                qq/"\cX\@c "/,  'SetMark',
-                qq/"\cX\@m\\*"/,        'DoMetaVersion',
-                'C-y',  '  Yank',
-                'C-z',    'Suspend',
-                'C-\\',   'Ding',
-                'C-^',    'Ding',
-                'C-_',    'Undo',
-                'DEL',  ($inDOS ?
-                         'BackwardKillWord' : # <Control>+<Backspace>
-                         'BackwardDeleteChar'
-                        ),
-                'M-<',    'BeginningOfHistory',
-                'M->',    'EndOfHistory',
-                'M-DEL',  'BackwardKillWord',
-                'M-C-h',  'BackwardKillWord',
-                'M-C-j',  'ViInput',
-                'M-C-v',  'QuotedInsert',
-                'M-b',    'BackwardWord',
-                'M-c',    'CapitalizeWord',
-                'M-d',    'KillWord',
-                'M-f',    'ForwardWord',
-                'M-h',    'PrintHistory',
-                'M-l',    'DownCaseWord',
-                'M-r',    'RevertLine',
-                'M-t',    'TransposeWords',
-                'M-u',    'UpcaseWord',
-                'M-v',    'HistorySearchBackward',
-                'M-y',    'YankPop',
-                "M-?",    'PossibleCompletions',
-		'M-~',    'TildeExpand',
-                "M-TAB",  'TabInsert',
-                'M-#',    'SaveLine',
-                qq/"\e[A"/,  'previous-history',
-                qq/"\e[B"/,  'next-history',
-                qq/"\e[C"/,  'forward-char',
-                qq/"\e[D"/,  'backward-char',
-                qq/"\eOA"/,  'previous-history',
-                qq/"\eOB"/,  'next-history',
-                qq/"\eOC"/,  'forward-char',
-                qq/"\eOD"/,  'backward-char',
-                qq/"\eOy"/,  'HistorySearchBackward',   # vt: PageUp
-                qq/"\eOs"/,  'HistorySearchForward',    # vt: PageDown
-                qq/"\e[[A"/, 'previous-history',
-                qq/"\e[[B"/, 'next-history',
-                qq/"\e[[C"/, 'forward-char',
-                qq/"\e[[D"/, 'backward-char',
-                qq/"\e[2~"/, 'ToggleInsertMode', # X: <Insert>
-                # Mods: 1 + bitmask: 1 Shift, 2 Alt, 4 Control, 8 (sometimes) Meta
-                qq/"\e[2;2~"/,  'YankClipboard',    # <Shift>+<Insert>
-                qq/"\e[3;2~"/,  'KillRegionClipboard',    # <Shift>+<Delete>
-                #qq/"\0\16"/, 'Undo', # <Alt>+<Backspace>
-                qq/"\eO5D"/, 'BackwardWord', # <Ctrl>+<Left arrow>
-                qq/"\eO5C"/, 'ForwardWord', # <Ctrl>+<Right arrow>
-                qq/"\e[5D"/, 'BackwardWord', # <Ctrl>+<Left arrow>
-                qq/"\e[5C"/, 'ForwardWord', # <Ctrl>+<Right arrow>
-                qq/"\eO5F"/, 'KillLine', # <Ctrl>+<End>
-                qq/"\e[5F"/, 'KillLine', # <Ctrl>+<End>
-                qq/"\e[4;5~"/, 'KillLine', # <Ctrl>+<End>
-                qq/"\eO5s"/, 'EndOfHistory', # <Ctrl>+<Page Down>
-                qq/"\e[6;5~"/, 'EndOfHistory', # <Ctrl>+<Page Down>
-                qq/"\e[5H"/, 'BackwardKillLine', # <Ctrl>+<Home>
-                qq/"\eO5H"/, 'BackwardKillLine', # <Ctrl>+<Home>
-                qq/"\e[1;5~"/, 'BackwardKillLine', # <Ctrl>+<Home>
-                qq/"\eO5y"/, 'BeginningOfHistory', # <Ctrl>+<Page Up>
-                qq/"\e[5;5y"/, 'BeginningOfHistory', # <Ctrl>+<Page Up>
-                qq/"\e[2;5~"/, 'CopyRegionAsKillClipboard', # <Ctrl>+<Insert>
-                qq/"\e[3;5~"/, 'KillWord', # <Ctrl>+<Delete>
-
-                # XTerm mouse editing (f202/f203 not in mainstream yet):
-                # Paste may be:         move f200 STRING f201
-                # or               f202 move f200 STRING f201 f203;
-                # and Cut may be   f202 move delete f203
-                qq/"\e[200~"/, 'BeginPasteGroup', # Pre-paste
-                qq/"\e[201~"/, 'EndPasteGroup', # Post-paste
-                qq/"\e[202~"/, 'BeginEditGroup', # Pre-edit
-                qq/"\e[203~"/, 'EndEditGroup', # Post-edit
-
-                # OSX xterm:
-                # OSX xterm: home \eOH end \eOF delete \e[3~ help \e[28~ f13 \e[25~
-                # gray- \eOm gray+ \eOk gray-enter \eOM gray* \eOj gray/ \eOo gray= \eO
-                # grayClear \e\e.
-
-                qq/"\eOH"/,   'BeginningOfLine',        # home
-                qq/"\eOF"/,   'EndOfLine',              # end
-
-                # HP xterm
-                #qq/"\e[A"/,   'PreviousHistory',       # up    arrow
-                #qq/"\e[B"/,   'NextHistory',           # down  arrow
-                #qq/"\e[C"/,   'ForwardChar',           # right arrow
-                #qq/"\e[D"/,   'BackwardChar',          # left  arrow
-                qq/"\e[H"/,   'BeginningOfLine',        # home
-                #'C-k',        'KillLine',              # clear display
-                qq/"\e[5~"/,  'HistorySearchBackward',  # prev
-                qq/"\e[6~"/,  'HistorySearchForward',   # next
-                qq/"\e[\0"/,  'BeginningOfLine',        # home
-
-                # These contradict:
-                ($^O =~ /^hp\W?ux/i ? (
-                  qq/"\e[1~"/,  'HistorySearchForward',   # find
-                  qq/"\e[3~"/,  'ToggleInsertMode',     # insert char
-                  qq/"\e[4~"/,  'ToggleInsertMode',     # select
-                 ) : (          # "Normal" xterm
-                  qq/"\e[1~"/,  'BeginningOfLine',      # home
-                  qq/"\e[3~"/,  'DeleteChar',           # delete
-                  qq/"\e[4~"/,  'EndOfLine',    # end
-                )),
-
-                # hpterm
-
-                (($ENV{'TERM'} and $ENV{'TERM'} eq 'hpterm') ?
-                 (
-                  qq/"\eA"/,    'PreviousHistory',     # up    arrow
-                  qq/"\eB"/,    'NextHistory',         # down  arrow
-                  qq/"\eC"/,    'ForwardChar',         # right arrow
-                  qq/"\eD"/,    'BackwardChar',        # left  arrow
-                  qq/"\eS"/,    'BeginningOfHistory',  # shift up    arrow
-                  qq/"\eT"/,    'EndOfHistory',        # shift down  arrow
-                  qq/"\e&r1R"/, 'EndOfLine',           # shift right arrow
-                  qq/"\e&r1L"/, 'BeginningOfLine',     # shift left  arrow
-                  qq/"\eJ"/,    'ClearScreen',         # clear display
-                  qq/"\eM"/,    'UnixLineDiscard',     # delete line
-                  qq/"\eK"/,    'KillLine',            # clear  line
-                  qq/"\eG\eK"/, 'BackwardKillLine',    # shift clear line
-                  qq/"\eP"/,    'DeleteChar',          # delete char
-                  qq/"\eL"/,    'Yank',                # insert line
-                  qq/"\eQ"/,    'ToggleInsertMode',    # insert char
-                  qq/"\eV"/,    'HistorySearchBackward',# prev
-                  qq/"\eU"/,    'HistorySearchForward',# next
-                  qq/"\eh"/,    'BeginningOfLine',     # home
-                  qq/"\eF"/,    'EndOfLine',           # shift home
-                  qq/"\ei"/,    'Suspend',             # shift tab
-                 ) :
-                 ()
-                ),
-                ($inDOS ?
-                 (
-                  qq/"\0\2"/,  'SetMark', # 2: <Control>+<Space>
-                  qq/"\0\3"/,  'SetMark', # 3: <Control>+<@>
-                  qq/"\0\4"/,  'YankClipboard',    # 4: <Shift>+<Insert>
-                  qq/"\0\5"/,  'KillRegionClipboard',    # 5: <Shift>+<Delete>
-                  qq/"\0\16"/, 'Undo', # 14: <Alt>+<Backspace>
-                  qq/"\0\65"/,  'PossibleCompletions', # 53: <Alt>+</>
-                  qq/"\0\107"/, 'BeginningOfLine', # 71: <Home>
-                  qq/"\0\110"/, 'previous-history', # 72: <Up arrow>
-                  qq/"\0\111"/, 'HistorySearchBackward', # 73: <Page Up>
-                  qq/"\0\113"/, 'backward-char', # 75: <Left arrow>
-                  qq/"\0\115"/, 'forward-char', # 77: <Right arrow>
-                  qq/"\0\117"/, 'EndOfLine', # 79: <End>
-                  qq/"\0\120"/, 'next-history', # 80: <Down arrow>
-                  qq/"\0\121"/, 'HistorySearchForward', # 81: <Page Down>
-                  qq/"\0\122"/, 'ToggleInsertMode', # 82: <Insert>
-                  qq/"\0\123"/, 'DeleteChar', # 83: <Delete>
-                  qq/"\0\163"/, 'BackwardWord', # 115: <Ctrl>+<Left arrow>
-                  qq/"\0\164"/, 'ForwardWord', # 116: <Ctrl>+<Right arrow>
-                  qq/"\0\165"/, 'KillLine', # 117: <Ctrl>+<End>
-                  qq/"\0\166"/, 'EndOfHistory', # 118: <Ctrl>+<Page Down>
-                  qq/"\0\167"/, 'BackwardKillLine', # 119: <Ctrl>+<Home>
-                  qq/"\0\204"/, 'BeginningOfHistory', # 132: <Ctrl>+<Page Up>
-                  qq/"\0\x92"/, 'CopyRegionAsKillClipboard', # 146: <Ctrl>+<Insert>
-                  qq/"\0\223"/, 'KillWord', # 147: <Ctrl>+<Delete>
-                  qq/"\0#"/, 'PrintHistory', # Alt-H
-                 )
-                 : ( 'C-@',     'Ding')
-                )
-               );
-
-    *KeyMap = *emacs_keymap;
+    KeymapEmacs(\&InitKeymap, \@emacs_keymap, $inDOS);
+    *KeyMap = \@emacs_keymap;
     my @add_bindings = ();
-    foreach ('-', '0' .. '9') { push(@add_bindings, "M-$_", 'DigitArgument'); }
+    foreach ('-', '0' .. '9') {
+	push(@add_bindings, "M-$_", 'DigitArgument');
+    }
     foreach ("A" .. "Z") {
-      next if  # defined($KeyMap[27]) && defined (%{"$KeyMap{name}_27"}) &&
+	next if
+         # defined($KeyMap[27]) && defined (%{"$KeyMap{name}_27"}) &&
         defined $ {"$KeyMap{name}_27"}[ord $_];
       push(@add_bindings, "M-$_", 'DoLowercaseVersion');
     }
@@ -522,200 +325,19 @@ sub preinit
     }
     &rl_bind(@add_bindings);
 
-    # Vi input mode.
-    &InitKeymap(*vi_keymap, 'SelfInsert', 'vi_keymap',
+    local(*KeyMap);
 
-                "\e",   'ViEndInsert',
-                'C-c',  'Interrupt',
-                'C-h',  'BackwardDeleteChar',
-                'C-w',  'UnixWordRubout',
-                'C-u',  'UnixLineDiscard',
-                'C-v',  'QuotedInsert',
-                'DEL',  'BackwardDeleteChar',
-                "\n",   'ViAcceptInsert',
-                "\r",   'ViAcceptInsert',
-               );
+    # Vi input mode.
+    KeymapVi(\&InitKeymap, \@vi_keymap);
 
     # Vi command mode.
-    &InitKeymap(*vicmd_keymap, 'Ding', 'vicmd_keymap',
-
-                'C-c',  'Interrupt',
-                'C-e',  'EmacsEditingMode',
-                'C-h',  'ViMoveCursor',
-                'C-l',  'ClearScreen',
-                "\n",   'ViAcceptLine',
-                "\r",   'ViAcceptLine',
-
-                ' ',    'ViMoveCursor',
-                '#',    'SaveLine',
-                '$',    'ViMoveCursor',
-                '%',    'ViMoveCursor',
-                '*',    'ViInsertPossibleCompletions',
-                '+',    'NextHistory',
-                ',',    'ViMoveCursor',
-                '-',    'PreviousHistory',
-                '.',    'ViRepeatLastCommand',
-                '/',    'ViSearch',
-
-                '0',    'ViMoveCursor',
-                '1',    'ViDigit',
-                '2',    'ViDigit',
-                '3',    'ViDigit',
-                '4',    'ViDigit',
-                '5',    'ViDigit',
-                '6',    'ViDigit',
-                '7',    'ViDigit',
-                '8',    'ViDigit',
-                '9',    'ViDigit',
-
-                ';',    'ViMoveCursor',
-                '=',    'ViPossibleCompletions',
-                '?',    'ViSearch',
-
-                'A',    'ViAppendLine',
-                'B',    'ViMoveCursor',
-                'C',    'ViChangeLine',
-                'D',    'ViDeleteLine',
-                'E',    'ViMoveCursor',
-                'F',    'ViMoveCursor',
-                'G',    'ViHistoryLine',
-                'H',    'PrintHistory',
-                'I',    'ViBeginInput',
-                'N',    'ViRepeatSearch',
-                'P',    'ViPutBefore',
-                'R',    'ViReplaceMode',
-                'S',    'ViChangeEntireLine',
-                'T',    'ViMoveCursor',
-                'U',    'ViUndoAll',
-                'W',    'ViMoveCursor',
-                'X',    'ViBackwardDeleteChar',
-                'Y',    'ViYankLine',
-
-                '\\',   'ViComplete',
-                '^',    'ViMoveCursor',
-
-                'a',    'ViAppend',
-                'b',    'ViMoveCursor',
-                'c',    'ViChange',
-                'd',    'ViDelete',
-                'e',    'ViMoveCursor',
-                'f',    'ViMoveCursorFind',
-                'h',    'ViMoveCursor',
-                'i',    'ViInput',
-                'j',    'NextHistory',
-                'k',    'PreviousHistory',
-                'l',    'ViMoveCursor',
-                'n',    'ViRepeatSearch',
-                'p',    'ViPut',
-                'r',    'ViReplaceChar',
-                's',    'ViChangeChar',
-                't',    'ViMoveCursorTo',
-                'u',    'ViUndo',
-                'w',    'ViMoveCursor',
-                'x',    'ViDeleteChar',
-                'y',    'ViYank',
-
-                '|',    'ViMoveCursor',
-                '~',    'ViToggleCase',
-
-                (($inDOS
-                  and (not $ENV{'TERM'} or $ENV{'TERM'} !~ /^(vt|xterm)/i)) ?
-                 (
-                  qq/"\0\110"/, 'PreviousHistory',   # 72: <Up arrow>
-                  qq/"\0\120"/, 'NextHistory',       # 80: <Down arrow>
-                  qq/"\0\113"/, 'BackwardChar',        # 75: <Left arrow>
-                  qq/"\0\115"/, 'ForwardChar',         # 77: <Right arrow>
-                  "\e",         'ViCommandMode',
-                 ) :
-
-                 (('M-C-j','EmacsEditingMode'), # Conflicts with \e otherwise
-                  (($ENV{'TERM'} and $ENV{'TERM'} eq 'hpterm') ?
-                   (
-                    qq/"\eA"/,    'PreviousHistory',   # up    arrow
-                    qq/"\eB"/,    'NextHistory',       # down  arrow
-                    qq/"\eC"/,    'ForwardChar',               # right arrow
-                    qq/"\eD"/,    'BackwardChar',              # left  arrow
-                    qq/"\e\\*"/,  'ViAfterEsc',
-                   ) :
-
-                   # Default
-                   (
-                    qq/"\e[A"/,   'PreviousHistory',    # up    arrow
-                    qq/"\e[B"/,   'NextHistory',        # down  arrow
-                    qq/"\e[C"/,   'ForwardChar',                # right arrow
-                    qq/"\e[D"/,   'BackwardChar',               # left  arrow
-                    qq/"\e\\*"/,  'ViAfterEsc',
-                    qq/"\e[\\*"/, 'ViAfterEsc',
-                   )
-                ))),
-               );
+    KeymapVicmd(\&InitKeymap, \@vicmd_keymap);
 
     # Vi positioning commands (suffixed to vi commands like 'd').
-    &InitKeymap(*vipos_keymap, 'ViNonPosition', 'vipos_keymap',
-
-                '^',    'ViFirstWord',
-                '0',    'BeginningOfLine',
-                '1',    'ViDigit',
-                '2',    'ViDigit',
-                '3',    'ViDigit',
-                '4',    'ViDigit',
-                '5',    'ViDigit',
-                '6',    'ViDigit',
-                '7',    'ViDigit',
-                '8',    'ViDigit',
-                '9',    'ViDigit',
-                '$',    'EndOfLine',
-                'h',    'BackwardChar',
-                'l',    'ForwardChar',
-                ' ',    'ForwardChar',
-                'C-h',  'BackwardChar',
-                'f',    'ViForwardFindChar',
-                'F',    'ViBackwardFindChar',
-                't',    'ViForwardToChar',
-                'T',    'ViBackwardToChar',
-                ';',    'ViRepeatFindChar',
-                ',',    'ViInverseRepeatFindChar',
-                '%',    'ViFindMatchingParens',
-                '|',    'ViMoveToColumn',
-
-                # Arrow keys
-                ($inDOS ?
-                 (
-                  qq/"\0\115"/, 'ForwardChar',         # 77: <Right arrow>
-                  qq/"\0\113"/, 'BackwardChar',        # 75: <Left arrow>
-                  "\e",         'ViPositionEsc',
-                 ) :
-
-                ($ENV{'TERM'} and $ENV{'TERM'} eq 'hpterm') ?
-                 (
-                  qq/"\eC"/,    'ForwardChar',         # right arrow
-                  qq/"\eD"/,    'BackwardChar',        # left  arrow
-                  qq/"\e\\*"/,  'ViPositionEsc',
-                 ) :
-
-                # Default
-                 (
-                  qq/"\e[C"/,   'ForwardChar',          # right arrow
-                  qq/"\e[D"/,   'BackwardChar',         # left  arrow
-                  qq/"\e\\*"/,  'ViPositionEsc',
-                  qq/"\e[\\*"/, 'ViPositionEsc',
-                 )
-                ),
-               );
+    KeymapVipos(\&InitKeymap, \@vipos_keymap, $inDOS);
 
     # Vi search string input mode for '/' and '?'.
-    &InitKeymap(*visearch_keymap, 'SelfInsert', 'visearch_keymap',
-
-                "\e",   'Ding',
-                'C-c',  'Interrupt',
-                'C-h',  'ViSearchBackwardDeleteChar',
-                'C-w',  'UnixWordRubout',
-                'C-u',  'UnixLineDiscard',
-                'C-v',  'QuotedInsert',
-                'DEL',  'ViSearchBackwardDeleteChar',
-                "\n",   'ViEndSearch',
-                "\r",   'ViEndSearch',
-               );
+    KeymapVisearch(\&InitKeymap, \@visearch_keymap);
 
     # These constant hashes hold the arguments to &forward_scan() or
     #     &backward_scan() for vi positioning commands, which all
@@ -777,17 +399,8 @@ sub preinit
         ord('E')  =>  q{.\s*\S*(?=\S)|.?\s*(?=\s$)},
     };
 
-    my $default_mode = 'emacs';
-
-    *KeyMap = $var_EditingMode = $var_EditingMode{$default_mode};
-
-##    my $name;
-##    for $name ( keys %{'readline::'} ) {
-##      # Create aliases accessible via tied interface
-##      *{"rl_$1"} = \$ {"var_$1"} if $name =~ /$var_(.*)/;
-##    }
-
-    1;                          # Returning a glob causes a bug in db5.001m
+    *KeyMap = $var_EditingMode = $var_EditingMode{'emacs'};
+    1; # Returning a glob causes a bug in db5.001m
 }
 
 sub init
@@ -924,58 +537,62 @@ sub RL_func ($) {
 
 =head2 actually_do_binding
 
-C<actually_do_binding($function1, \@sequence1, ...)>
+B<actually_do_binding>(I<$function1>, I<@sequence1>, ...)
 
-Actually inserts the binding for C<@sequence> to C<$function> into the
-current map. C<@sequence> is an array of character ordinals.
+Actually inserts the binding for I<@sequence> to I<$function> into the
+current map. I<@sequence> is an array of character ordinals.
 
 If C<sequence> is more than one element long, all but the last will
 cause meta maps to be created.
 
-C<$Function> will have an implicit C<F_> prepended to it.
+I<$Function> will have an implicit I<F_> prepended to it.
+
+0 is returned if there is no error.
 
 =cut
 
 sub actually_do_binding
 {
-  while (@_) {
-    my $func = shift;
-    my ($key, @keys) = @{shift()};
-    $key += 0;
-    local(*KeyMap) = *KeyMap;
-    my $map;
-    while (@keys) {
-      if (defined($KeyMap[$key]) && ($KeyMap[$key] ne 'F_PrefixMeta')) {
-        warn "Warning$InputLocMsg: ".
-          "Re-binding char #$key from [$KeyMap[$key]] to meta for [@keys] => $func.\n" if $^W;
-      }
-      $KeyMap[$key] = 'F_PrefixMeta';
-      $map = "$KeyMap{'name'}_$key";
-      InitKeymap(*$map, '', $map) if !(%$map);
-      *KeyMap = *$map;
-      $key = shift @keys;
-      #&actually_do_binding($func, \@keys);
-    }
+    my $bad = 0;
+    while (@_) {
+	my $func = shift;
+	my ($key, @keys) = @{shift()};
+	$key += 0;
+	local(*KeyMap) = *KeyMap;
+	my $map;
+	while (@keys) {
+	    if (defined($KeyMap[$key]) && ($KeyMap[$key] ne 'F_PrefixMeta')) {
+		warn "Warning$InputLocMsg: ".
+		    "Re-binding char #$key from [$KeyMap[$key]] to meta for [@keys] => $func.\n" if $^W;
+	    }
+	    $KeyMap[$key] = 'F_PrefixMeta';
+	    $map = "$KeyMap{'name'}_$key";
+	    InitKeymap(*$map, '', $map) if !(%$map);
+	    *KeyMap = *$map;
+	    $key = shift @keys;
+	    #&actually_do_binding($func, \@keys);
+	}
 
-    my $name = $KeyMap{'name'};
-    if ($key eq 'default') {      # JP: added
-        warn "Warning$InputLocMsg: ".
-          " changing default action to $func in $name key map\n"
-          if $^W && defined $KeyMap{'default'};
+	my $name = $KeyMap{'name'};
+	if ($key eq 'default') {      # JP: added
+	    warn "Warning$InputLocMsg: ".
+		" changing default action to $func in $name key map\n"
+		if $^W && defined $KeyMap{'default'};
 
-        $KeyMap{'default'} = RL_func $func;
+	    $KeyMap{'default'} = RL_func $func;
+	}
+	else {
+	    if (defined($KeyMap[$key]) && $KeyMap[$key] eq 'F_PrefixMeta'
+		&& $func ne 'PrefixMeta')
+	    {
+		warn "Warning$InputLocMsg: ".
+		    " Re-binding char #$key to non-meta ($func) in $name key map\n"
+		    if $^W;
+	    }
+	    $KeyMap[$key] = RL_func $func;
+	}
     }
-    else {
-        if (defined($KeyMap[$key]) && $KeyMap[$key] eq 'F_PrefixMeta'
-            && $func ne 'PrefixMeta')
-          {
-            warn "Warning$InputLocMsg: ".
-              " Re-binding char #$key to non-meta ($func) in $name key map\n"
-              if $^W;
-          }
-        $KeyMap[$key] = RL_func $func;
-    }
-  }
+    return $bad;
 }
 
 =head2 GNU ReadLine-ish Routines
@@ -983,12 +600,15 @@ sub actually_do_binding
 Many of these aren't the the name GNU readline uses, nor do they
 correspond to GNU ReadLine functions. Sigh.
 
-=head3 rl_bind
+=head3 rl_bind_keyseq
 
-Accepts an array as pairs ($keyspec, $function, [$keyspec, $function]...).
-and maps the associated bindings to the current KeyMap.
+B<rl_bind_keyseq>(I<$keyspec>, I<$function>)
 
-C<$keyspec> should be the name of key sequence in one of two forms:
+Bind the key sequence represented by the string I<keyseq> to the
+function function, beginning in the current keymap. This makes new
+keymaps as necessary. The return value is non-zero if keyseq is
+invalid.  I<$keyspec> should be the name of key sequence in one of two
+forms:
 
 Old (GNU readline documented) form:
 
@@ -1040,64 +660,65 @@ arrow keys:
 
 =cut
 
-sub rl_bind
+sub rl_bind_keyseq($$)
 {
-    my (@keys, $key, $func, $ord, @arr);
+    my ($key, $func) = @_;
+    unless ($func =~ /^[\"\']/) {
+	$func = "\u$func";
+	$func =~ s/-(.)/\u$1/g;
 
-    while (defined($key = shift(@_)) && defined($func = shift(@_)))
-    {
-        ##
-        ## Change the function name from something like
-        ##      backward-kill-line
-        ## to
-        ##      BackwardKillLine
-        ## if not already there.
-        ##
-        unless ($func =~ /^[\"\']/) {
-          $func = "\u$func";
-          $func =~ s/-(.)/\u$1/g;
-
-          # Temporary disabled
-          if (!$autoload_broken and !defined($ {'readline::'}{"F_$func"})) {
+	# Temporary disabled
+	if (!$autoload_broken and !defined($ {'readline::'}{"F_$func"})) {
             warn "Warning$InputLocMsg: bad bind function [$func]\n" if $^W;
             next;
-          }
-        }
-
-        ## print "sequence [$key] func [$func]\n"; ##DEBUG
-
-        @keys = ();
-        ## See if it's a new-style binding.
-        if ($key =~ m/"((?:\\.|[^\\])*)"/s) {
-            @keys = _unescape "$1";
-        } else {
-            ## old-style binding... only one key (or Meta+key)
-            my ($isctrl, $orig) = (0, $key);
-            $isctrl = $key =~ s/\b(C|Control|CTRL)-//i;
-            push(@keys, ord("\e")) if $key =~ s/\b(M|Meta)-//i; ## is meta?
-            ## Isolate key part. This matches GNU's implementation.
-            ## If the key is '-', be careful not to delete it!
-            $key =~ s/.*-(.)/$1/;
-            if    ($key =~ /^(space|spc)$/i)   { $key = ' ';    }
-            elsif ($key =~ /^(rubout|del)$/i)  { $key = "\x7f"; }
-            elsif ($key =~ /^tab$/i)           { $key = "\t";   }
-            elsif ($key =~ /^(return|ret)$/i)  { $key = "\r";   }
-            elsif ($key =~ /^(newline|lfd)$/i) { $key = "\n";   }
-            elsif ($key =~ /^(escape|esc)$/i)  { $key = "\e";   }
-            elsif (length($key) > 1) {
-                warn "Warning$InputLocMsg: strange binding [$orig]\n" if $^W;
-            }
-            $key = ord($key);
-            $key = &ctrl($key) if $isctrl;
-            push(@keys, $key);
-        }
-
-        # Now do the mapping of the sequence represented in @keys
-        printf "rl_bind(%s, (%s)\n", $func, join(', ', @keys) if $DEBUG;
-        push @arr, $func, [@keys];
-        #&actually_do_binding($func, \@keys);
+	}
     }
-    &actually_do_binding(@arr);
+
+    ## print "sequence [$key] func [$func]\n"; ##DEBUG
+
+    my @keys = ();
+    ## See if it's a new-style binding.
+    if ($key =~ m/"((?:\\.|[^\\])*)"/s) {
+	@keys = _unescape "$1";
+    } else {
+	## old-style binding... only one key (or Meta+key)
+	my ($isctrl, $orig) = (0, $key);
+	$isctrl = $key =~ s/\b(C|Control|CTRL)-//i;
+	push(@keys, ord("\e")) if $key =~ s/\b(M|Meta)-//i; ## is meta?
+	## Isolate key part. This matches GNU's implementation.
+	## If the key is '-', be careful not to delete it!
+	$key =~ s/.*-(.)/$1/;
+	if    ($key =~ /^(space|spc)$/i)   { $key = ' ';    }
+	elsif ($key =~ /^(rubout|del)$/i)  { $key = "\x7f"; }
+	elsif ($key =~ /^tab$/i)           { $key = "\t";   }
+	elsif ($key =~ /^(return|ret)$/i)  { $key = "\r";   }
+	elsif ($key =~ /^(newline|lfd)$/i) { $key = "\n";   }
+	elsif ($key =~ /^(escape|esc)$/i)  { $key = "\e";   }
+	elsif (length($key) > 1) {
+	    warn "Warning$InputLocMsg: strange binding [$orig]\n" if $^W;
+	}
+	$key = ord($key);
+	$key = &ctrl($key) if $isctrl;
+	push(@keys, $key);
+    }
+
+    # Now do the mapping of the sequence represented in @keys
+    printf "rl_bind(%s, %s)\n", $func, join(', ', @keys) if $DEBUG;
+    &actually_do_binding($func, \@keys);
+}
+
+=head3 rl_bind
+
+Accepts an array as pairs ($keyspec, $function, [$keyspec, $function]...).
+and maps the associated bindings to the current KeyMap.
+=cut
+
+sub rl_bind
+{
+    while (defined($key = shift(@_)) && defined($func = shift(@_)))
+    {
+	rl_bind_keyseq($key, $func);
+    }
 }
 
 =head3 rl_set
@@ -1172,10 +793,10 @@ sub rl_set
 
 =head3 rl_tilde_expand
 
- rl_tilde_expand($prefix) => list of usernames
+    rl_tilde_expand($prefix) => list of usernames
 
 Returns a list of completions that begin with the given prefix,
-I<$prefix>.  This only works if we have getpwwet() available.
+I<$prefix>.  This only works if we have I<getpwent()> available.
 
 =cut
 
@@ -1267,8 +888,8 @@ sub rl_filename_list_deprecated
 }
 
 # Handle one line of an input file. Note we also assume
-# local-bound arrays @action and @level.
-sub process_init_line($$$)
+# local-bound arrays I<@action> and I<@level>.
+sub parse_and_bind($$$)
 {
     $_ = shift;
     my $file = shift;
@@ -1333,6 +954,20 @@ sub process_init_line($$$)
     }
 }
 
+=head3 rl_parse_and_bind
+
+B<rl_parse_and_bind>(I<$line>)
+
+Parse I<$line> as if it had been read from the inputrc file and
+perform any key bindings and variable assignments found.
+
+=cut
+sub rl_parse_and_bind($)
+{
+    my $line = shift;
+    parse_and_bind($line, '*bogus*',  0);
+}
+
 =head3 rl_basic_commands
 
 Called with a list of possible commands, will allow command completion
@@ -1353,16 +988,27 @@ sub rl_basic_commands
      $rl_completion_function = 'use_basic_commands';
 }
 
-sub rl_getc {
+sub rl_getc() {
     $Term::ReadLine::Perl5::term->Tk_loop
 	if $Term::ReadLine::toloop && defined &Tk::DoOneEvent;
     return Term::ReadKey::ReadKey(0, $term_IN);
 }
 
+=head3 rl_read_init_file
+
+B<rl_read_initfile>(I<$filename>)
+Read keybindings and variable assignments from filename I<$filename>.
+
+=cut
+sub rl_read_init_file($) {
+    read_an_init_file(shift, 0);
+}
+
+
 ###########################################################################
 ## Bindable functions... pretty much in the same order as in readline.c ###
 ###########################################################################
-=head1 Bindable functions
+=head1 BINDABLE FUNCTIONS
 
 There are pretty much in the same order as in readline.c
 
@@ -1643,7 +1289,7 @@ sub F_PrintHistory {
     print $lspace, ". . .\n" if $end < @rl_History;
     print "$hdr\n";
 
-    &force_redisplay();
+    rl_forced_update_display();
 
     &F_ViInput() if $line eq '' && $Vi_mode;
 }
@@ -1729,9 +1375,10 @@ sub F_TabInsert
 
 =head3 F_SelfInsert
 
-C<F_SelfInsert($count, $ord)>
+B<F_SelfInsert>(I<$count>, I<$ord>)
 
-C<$ord> is an ASCII ordinal; inserts C<$count> of them into C<$line>.
+I<$ord> is an ASCII ordinal; inserts I<$count> of them into global
+I<$line>.
 
 Insert yourself.
 
@@ -2021,7 +1668,7 @@ sub F_DigitArgument
             }
         } else {
             local(*KeyMap) = $var_EditingMode;
-            &redisplay();
+            rl_redisplay();
             $doingNumArg = 1;           # Allow NumArg inside NumArg
             &do_command(*KeyMap, $NumericArg . ($sawDigit ? '': 'e0'), $ord);
             return;
@@ -2032,7 +1679,7 @@ sub F_DigitArgument
         } elsif ($NumericArg < -$rl_max_numeric_arg) {
             $NumericArg = -$rl_max_numeric_arg;
         }
-        &redisplay(sprintf("(arg %d) ", $NumericArg));
+        redisplay(sprintf("(arg %d) ", $NumericArg));
     } while defined($in = &getc_with_pending);
 }
 
@@ -2135,7 +1782,7 @@ sub F_ReReadInitFile
         return unless defined $HOME;
         $file = File::Spec->catfile($HOME, '.inputrc');
     }
-    read_an_init_file($file, 0);
+    rl_read_init_file($file);
 }
 
 =head3 F_Abort
@@ -2395,7 +2042,7 @@ sub F_Interrupt
 sub F_PrefixMeta
 {
     my($count, $keymap) = ($_[0], "$KeyMap{'name'}_$_[1]");
-    ##print "F_PrefixMeta [$keymap]\n\r";
+    print "F_PrefixMeta [$keymap]\n\r" if $DEBUG;
     die "<internal error, $_[1]>" unless %$keymap;
     do_command(*$keymap, $count, ord(&getc_with_pending));
 }
@@ -2627,7 +2274,7 @@ sub F_SaveLine
 {
     local $\ = '';
     $line = '#'.$line;
-    &redisplay();
+    rl_redisplay();
     print $term_OUT "\r\n";
     &add_line_to_history($line, $minlength);
     $line_for_revert = '';
@@ -2737,8 +2384,11 @@ sub F_ViToggleCase {
 }
 
 =head3 F_ViHistoryLine
-Go to the numbered history line, as listed by the 'H' command, i.e. the
-current $line is line 1, the youngest line in @rl_History is 2, etc.
+
+Go to the numbered history line, as listed by the 'H' command,
+i.e. the current $line is line 1, the youngest line in I<@rl_History>
+is 2, etc.
+
 =cut
 
 sub F_ViHistoryLine {
@@ -3034,7 +2684,7 @@ sub F_ViComplete {
 
         # Vi likes the cursor one character right of where emacs like it.
         &F_ForwardChar(1);
-        &force_redisplay();
+        rl_forced_update_display();
 
         # Look ahead to the next input keystroke.
         $ch = &getc_with_pending();
@@ -3258,8 +2908,7 @@ sub get_window_size
 	if defined($num_cols) && $num_cols;
     $rl_margin = int($rl_screen_width/3);
     if (defined $redraw) {
-        $force_redraw = 1;
-        &redisplay();
+	rl_forced_update_display();
     }
 
     for my $hook (@winchhooks) {
@@ -3294,42 +2943,21 @@ sub get_ornaments_selected {
     }
 }
 
-sub get_line {
-  scalar <$term_IN>;
-}
-
-=head3 readline_dumb
-
-A version readline for a dumb terminal, that is one that doesn't have
-many terminal editing capabilities.
-
-=cut
-
-sub readline_dumb
-{
-    local $\ = '';
-    print $term_OUT $prompt;
-    local $/ = "\n";
-    return undef
-        if !defined($line = get_line);
-    chomp($line);
-    $| = $oldbar;
-    select $old;
-    return $line;
-}
-
 =head3 readline
 
-C<&readline::readline($prompt, $default)>
+    &readline::readline($prompt, $default)>
 
-The main routine to call interactively read lines.
+The main routine to call interactively read lines. Parameter
+I<$prompt> is the text you want to prompt with If it is empty string,
+no preceding prompt text is given. It is I<undef> a default value of
+"INPUT> " is used.
 
-C<$default> can be omitted. The next input line is returned or
-C<undef> on EOF.
+Parameter I<$default> is the default value; it can be can be
+omitted. The next input line is returned or I<undef> on EOF.
 
 =cut
 
-sub readline
+sub readline($;$)
 {
     no warnings 'once';
     $Term::ReadLine::Perl5::term->register_Tk
@@ -3365,7 +2993,8 @@ sub readline
       if $rl_scroll_nextline;
 
     if ($dumb_term) {
-        return readline_dumb;
+        return Term::ReadLine::Perl5::Dumb::readline($prompt, $term_IN,
+						     $term_OUT);
     }
 
     # test if we resume an 'Operate' command
@@ -3399,7 +3028,7 @@ sub readline
     $line_rl_mark = -1;
 
     ##
-    ## some stuff for &redisplay.
+    ## some stuff for rl_redisplay.
     ##
     $lastredisplay = '';        ## Was no last redisplay for this time.
     $lastlen = length($lastredisplay);
@@ -3410,7 +3039,8 @@ sub readline
     if (!eval {SetTTY()}) {     ## Put into raw mode.
         warn $@ if $@;
         $dumb_term = 1;
-        return readline_dumb;
+        return Term::ReadLine::Perl5::Dumb::readline($prompt, $term_IN,
+						     $term_OUT);
     }
 
     *KeyMap = $var_EditingMode;
@@ -3461,7 +3091,7 @@ sub readline
                 *F_ViEndInsert = $F_ViEndInsert_Real;
                 &F_ViEndInsert;
                $force_redraw = 1;
-               redisplay();
+               rl_redisplay();
             };
         }
     }
@@ -3469,7 +3099,8 @@ sub readline
     if ($rl_default_selected) {
         redisplay_high();
     } else {
-        &redisplay();          ## Show the line (prompt+default at this point).
+        ## Show the line (prompt+default at this point).
+        rl_redisplay();
     }
 
     # pretend input if we 'Operate' on more than one line
@@ -3498,7 +3129,10 @@ sub readline
             $cmd = 'F_BackwardDeleteChar' if $cmd eq 'F_DeleteChar';
         }
         undef $doingNumArg;
-        &$cmd(1, ord($input));                  ## actually execute input
+
+	# Execute input
+        eval { &$cmd(1, ord($input)); };
+
         $rl_first_char = 0;
         $lastcommand = $cmd;
         *KeyMap = $var_EditingMode;           # JP: added
@@ -3508,7 +3142,7 @@ sub readline
         &F_BackwardChar(1) if $Vi_mode and $line ne ''
             and &at_end_of_line and $KeyMap{'name'} eq 'vicmd_keymap';
 
-        &redisplay();
+        rl_redisplay();
         $LastCommandKilledText = $ThisCommandKilledText;
     }
 
@@ -3581,8 +3215,13 @@ sub substr_with_props {
 
   if ($from >= $lp) {
     $p = '';
-    $s = substr $s, $from - $lp;
-    $lp = 0;
+    my $start = $from - $lp;
+    if ($start < length($s)) {
+	$s = substr $s, $start;
+	$lp = 0;
+    } else {
+	return '';
+    }
   } else {
     $p = substr $p, $from;
     $lp -= $from;
@@ -3626,36 +3265,32 @@ sub substr_with_props {
 sub redisplay_high {
   get_ornaments_selected();
   @$rl_term_set[2,3,4,5] = @$rl_term_set[4,5,2,3];
-  &redisplay();                 ## Show the line, default inverted.
+  ## Show the line, default inverted.
+  rl_redisplay();
   @$rl_term_set[2,3,4,5] = @$rl_term_set[4,5,2,3];
   $force_redraw = 1;
 }
 
-=head3 redisplay
+=head3 rl_redisplay
 
-C<redisplay()>
+B<rl_redisplay()>
 
-Updates the screen to reflect the current value if C<$line>.
+Updates the screen to reflect the current value of global C<$line>.
 
-For the purposes of this routine, we prepend the prompt to a local copy of
-C<$line> so that we display the prompt as well.  We then modify it to reflect
-that some characters have different sizes. That is, control-C is represented
-as C<^C>, tabs are expanded, etc.
+For the purposes of this routine, we prepend the prompt to a local
+copy of C<$line> so that we display the prompt as well.  We then
+modify it to reflect that some characters have different sizes. That
+is, control-C is represented as C<^C>, tabs are expanded, etc.
 
 This routine is somewhat complicated by two-byte characters.... must
 make sure never to try do display just half of one.
-
-I<Note>: If an argument is given, it is used instead of the prompt.
 
 This is some nasty code.
 
 =cut
 
-sub redisplay
+sub rl_redisplay()
 {
-    ## local $line has prompt also; take that into account with $D.
-    local($prompt) = defined($_[0]) ? $_[0] : $prompt;
-    $prompt = '' unless defined($prompt);
     my ($thislen, $have_bra);
     my($dline) = $prompt . $line;
     local($D) = $D + length($prompt);
@@ -3856,6 +3491,24 @@ sub redisplay
       = ($thislen, $dline, $delta, length $prompt);
 
     $force_redraw = 0;
+}
+
+=head3 redisplay
+
+B<redisplay>[(I<$prompt>)]
+
+If an argument I<$prompt> is given, it is used instead of the prompt.
+Updates the screen to reflect the current value of global C<$line> via
+L<rl_redisplay>.
+=cut
+
+sub redisplay(;$)
+{
+    ## local $line has prompt also; take that into account with $D.
+    local($prompt) = defined($_[0]) ? $_[0] : $prompt;
+    $prompt = '' unless defined($prompt);
+    rl_redisplay();
+
 }
 
 sub min($$) { $_[0] < $_[1] ? $_[0] : $_[1]; }
@@ -4250,7 +3903,7 @@ sub DoSearch
             $line = $rl_History[$I];
             $D += index($rl_History[$I], $searchstr);
         }
-        &redisplay( '('.($reverse?'reverse-':'') ."i-search) `$searchstr': ");
+        redisplay( '('.($reverse?'reverse-':'') ."i-search) `$searchstr': ");
 
         $c = &getc_with_pending;
         if (($KeyMap[ord($c)] || 0) eq 'F_ReverseSearchHistory') {
@@ -4286,7 +3939,7 @@ sub DoSearch
                 $line = $rl_History[$I];
                 $D = index($rl_History[$I], $searchstr);
             }
-            &redisplay();
+            rl_redisplay();
             last;
         } else {
             ## Add this character to the end of the search string and
@@ -4528,7 +4181,7 @@ sub tilde_complete($) {
     }
 }
 
-=head2 pretty_print_list
+=head3 pretty_print_list
 
 Print an array in columns like ls -C.  Originally based on stuff
 (lsC2.pl) by utashiro@sran230.sra.co.jp (Kazumasa Utashiro).
@@ -4613,9 +4266,9 @@ sub do_delete {
     1;    # True return value
 }
 
-=head2 get_position
+=head3 get_position
 
-    get_poition($count, $ord, $fulline_ord, $poshash)
+    get_position($count, $ord, $fulline_ord, $poshash)
 
 Interpret vi positioning commands
 =cut
@@ -4687,9 +4340,9 @@ sub get_line_from_history($) {
 }
 
 # Redisplay the line, without attempting any optimization
-sub force_redisplay {
+sub rl_forced_update_display() {
     local $force_redraw = 1;
-    &redisplay(@_);
+    redisplay(@_);
 }
 
 ## returns a new $i or -1 if not found.
@@ -4723,12 +4376,12 @@ sub get_vi_search_str($) {
 
     local $prompt = $prompt . $c;
     local ($line, $D) = ('', 0);
-    &redisplay();
+    rl_redisplay();
 
     # Gather a search string in our local $line.
     while ($lastcommand ne 'F_ViEndSearch') {
         &do_command($var_EditingMode{'visearch'}, 1, ord(&getc_with_pending));
-        &redisplay();
+        rl_redisplay();
 
         # We've backspaced past beginning of line
         return undef if !defined $line;
@@ -4775,7 +4428,7 @@ sub clipboard_set($) {
 
 =head3 read_an_init_file
 
-C<read_an_init_file(inputrc_file, [include_depth])>
+B<read_an_init_file>(I<inputrc_file>, [I<include_depth>])
 
 Reads and executes I<inputrc_file> which does things like Sets input
 key bindings in key maps.
@@ -4796,7 +4449,7 @@ sub read_an_init_file($;$)
     local (@level) = ();        ## if, else
 
     local $/ = "\n";
-    process_init_line($_, $file, $include_depth) while <RC>;
+    parse_and_bind($_, $file, $include_depth) while <RC>;
     close(RC);
     return 1;
 }

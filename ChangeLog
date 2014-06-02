@@ -1,6 +1,123 @@
+2014-06-02  Rocky Bernstein <rocky@cpan.org>
+
+	* Build.PL, Changes, lib/Term/ReadLine/Perl5.pm,
+	lib/Term/ReadLine/Perl5/Dumb.pm, lib/Term/ReadLine/Perl5/Keymap.pm,
+	lib/Term/ReadLine/Perl5/readline.pm: Go over POD text. Get ready for
+	release 1.38
+
+2014-06-01  Rocky Bernstein <rocky@cpan.org>
+
+	* MANIFEST, lib/Term/ReadLine/Perl5/Dumb.pm,
+	lib/Term/ReadLine/Perl5/readline.pm: Split out Dumb to it's own
+	module.
+
+2014-06-01  Rocky Bernstein <rocky@cpan.org>
+
+	* CHANGES, Changes, MANIFEST, lib/Term/ReadLine/Perl5/Keymap.pm,
+	lib/Term/ReadLine/Perl5/readline.pm: Add rl_parse_and_bind
+
+2014-06-01  Rocky Bernstein <rocky@cpan.org>
+
+	* README.pod: Revise.
+
+2014-06-01  Rocky Bernstein <rocky@cpan.org>
+
+	* README.pod: Link typo.
+
+2014-06-01  Rocky Bernstein <rocky@cpan.org>
+
+	* MANIFEST, lib/Term/ReadLine/Perl5/Keymap.pm,
+	lib/Term/ReadLine/Perl5/readline.pm: Move Keymap initialization to
+	its own file.
+
+2014-06-01  Rocky Bernstein <rocky@cpan.org>
+
+	* t/20test-read-input-file.t: read_an_init_file -> rl_read_init_file
+
+2014-06-01  Rocky Bernstein <rocky@cpan.org>
+
+	* lib/Term/ReadLine/Perl5/readline.pm: Guard against illegal
+	function bindings
+
+2014-06-01  Rocky Bernstein <rocky@cpan.org>
+
+	* lib/Term/ReadLine/Perl5.pm, lib/Term/ReadLine/Perl5/readline.pm: 
+	T:R:P5:new - extra call to preinit to set some sort of tty settings
+
+2014-05-31  Rocky Bernstein <rocky@cpan.org>
+
+	* lib/Term/ReadLine/Perl5/readline.pm: Change a typeglob into an
+	array reference. This is no longer Perl4
+
+2014-05-31  Rocky Bernstein <rocky@cpan.org>
+
+	* MANIFEST, README.pod, demo/Cmd.pm, demo/Cmd/Features.pm,
+	demo/Cmd/ResetTTY.pm, demo/Cmd/SetTTY.pm, demo/Cmd/help.pm,
+	demo/Cmd/preinit.pm, demo/Cmd/rl_bind_keyseq.pm,
+	demo/Cmd/rl_filename_list.pm, demo/Cmd/rl_read_init_file.pm,
+	demo/Cmd/rl_redisplay.pm, demo/Cmd/rl_set.pm,
+	demo/Cmd/tilde_complete.pm, demo/CmdProc.pm, demo/Load.pm,
+	demo/shell.pl: Remove demo. It's now in its own repo/module
+
+2014-05-29  Rocky Bernstein <rocky@cpan.org>
+
+	* lib/Term/ReadLine/Perl5/readline.pm: Another typo
+
+2014-05-29  Rocky Bernstein <rocky@cpan.org>
+
+	* demo/Cmd/SetTTY.pm: One more POD typo
+
+2014-05-29  Rocky Bernstein <rocky@cpan.org>
+
+	* MANIFEST, demo/Cmd/help.pm, demo/Cmd/redisplay.pm,
+	demo/Cmd/rl_bind.pm, demo/Cmd/rl_bind_keyseq.pm,
+	demo/Cmd/rl_read_init_file.pm, demo/Cmd/rl_redisplay.pm,
+	lib/Term/ReadLine/Perl5/readline.pm: Better GNU ReadLine compliance
+	in rl_ functions. Add read_init_file.
+
+2014-05-28  Rocky Bernstein <rocky@cpan.org>
+
+	* MANIFEST, README.pod, demo/Cmd.pm, demo/Cmd/help.pm,
+	demo/CmdProc.pm, demo/Load.pm, demo/shell.pl,
+	lib/Term/ReadLine/Perl5.pm: Remove Enbugger
+
+2014-05-28  Rocky Bernstein <rocky@cpan.org>
+
+	* demo/Cmd/Features.pm, demo/Cmd/redisplay.pm, demo/Cmd/rl_bind.pm,
+	demo/Cmd/tilde_complete.pm: Add rl_bind Features, redisplay, ad
+	tilde_complete functions.
+
+2014-05-28  Rocky Bernstein <rocky@cpan.org>
+
+	* Build.PL: stable->testing
+
+2014-05-28  Rocky Bernstein <rocky@cpan.org>
+
+	* README.pod, lib/Term/ReadLine/Perl5.pm: Promote the demo program
+	more
+
+2014-05-28  Rocky Bernstein <rocky@cpan.org>
+
+	* demo/Cmd.pm, demo/Cmd/ResetTTY.pm, demo/Cmd/SetTTY.pm,
+	demo/Cmd/help.pm, demo/Cmd/preinit.pm,
+	demo/Cmd/rl_filename_list.pm, demo/Cmd/rl_set.pm, demo/CmdProc.pm,
+	demo/Load.pm, demo/shell.pl: Demo command structure with now the way
+	it should be: one command per file, dynamically looked up at runtime
+
+2014-05-26  Rocky Bernstein <rocky@cpan.org>
+
+	* .gitignore, demo/Cmd.pm, demo/DemoHelper.pm, demo/shell.pl: Work
+	on demo program to pull out commands into its own module
+
 2014-05-25  Rocky Bernstein <rocky@cpan.org>
 
-	* CHANGES: Get ready for release 1.37
+	* MANIFEST.SKIP, META.yml, demo/DemoHelper.pm, demo/shell.pl,
+	lib/Term/ReadLine/Perl5.pm, lib/Term/ReadLine/Perl5/readline.pm: 
+	Start to DRY and clean up demo/shell.pl. More POD work.
+
+2014-05-25  Rocky Bernstein <rocky@cpan.org>
+
+	* CHANGES, demo/shell.pl: Get ready for release 1.37
 
 2014-05-25  Rocky Bernstein <rocky@cpan.org>
 
