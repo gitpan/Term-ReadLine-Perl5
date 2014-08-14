@@ -1,5 +1,5 @@
 This file contains message digests of all files listed in MANIFEST,
-signed via the Module::Signature module, version 0.68.
+signed via the Module::Signature module, version 0.73.
 
 To verify the content in this distribution, first make sure you have
 Module::Signature installed, then type:
@@ -14,41 +14,49 @@ not run its Makefile.PL or Build.PL.
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA1
 
-SHA1 79b58d8fd61417d0a73e94934da33d481f4a7dd8 Build.PL
-SHA1 c1cdcfc4da587d02bcbe4f06c099439cd879b0e0 ChangeLog
-SHA1 1bb1cd13ac10c37dddc3ead245124e95f7b494bf Changes
+SHA1 62d3e881f0bd1f4b05b5593e699edafc35306dac Build.PL
+SHA1 3eb379b7bbbe603d3ad96e539be8cd13edd10df2 ChangeLog
+SHA1 e8d8d0a189f2dabc12fa66f59402bc50ce03e23b Changes
 SHA1 ad35d4ad9e96de51a11677ce075e19731336fa82 GNUmakefile
 SHA1 2cdc6028c730caf1505bafb44a7e46bacd074d01 LICENSE
-SHA1 08735e5ed405fe3c0d201e71c20a7ca60722bb6a MANIFEST
-SHA1 0236674398e031eccec7a09ef41a34890ea479b4 META.json
-SHA1 0a55ca85ecef85ef32ce7c3fceb8cc397ed37819 META.yml
-SHA1 b3a63a846921ed50267c1099cc93e5a092a3d165 Makefile.PL
+SHA1 7843dd83bc3161bffbf00e9a0353d6867bb5b063 MANIFEST
+SHA1 467ab1128d1e4a9ba564500df5f2e9de42eb1e75 META.json
+SHA1 3466e98c1f52cb989e68a5f853b3923421a1ff10 META.yml
+SHA1 11fc7e434201a55455d75adf05d32698840e50b1 Makefile.PL
 SHA1 305b123245b3f37a56bfbbf1a5be863d44a56615 README.pod
-SHA1 34febd1c729a6ca9ec5d33f9bf2b56f522af33fe lib/Term/ReadLine/Perl5.pm
+SHA1 fb618119fa2b802eccd1f3903f8220252d6a0509 lib/Term/ReadLine/Perl5.pm
 SHA1 19b893fed1e00ce86650d80205fa927380e820c4 lib/Term/ReadLine/Perl5/CHANGES
+SHA1 0b56c894615e09a379b39943173856d70babf2ed lib/Term/ReadLine/Perl5/Common.pm
 SHA1 743cddbbe16bb76b9515f6888ae0f3dda2e4fea6 lib/Term/ReadLine/Perl5/Dumb.pm
-SHA1 0ceee01873244128bbc87e5aa034d6025cec92d1 lib/Term/ReadLine/Perl5/History.pm
+SHA1 6a2931565425f093aee078850770f0ef34667db8 lib/Term/ReadLine/Perl5/History.pm
 SHA1 f5033185d2014a58b2af611d44402b18e0a2bff0 lib/Term/ReadLine/Perl5/Keymap.pm
+SHA1 adaa5d32b428e8b68fedcafac7c3e4c3ef81686e lib/Term/ReadLine/Perl5/OO.pm
+SHA1 e8a6e84c92a4ecbeca845e3772db46f588684e7e lib/Term/ReadLine/Perl5/OO/History.pm
+SHA1 18d0325ecd082b3b73923f9c1286d9eaaaa08362 lib/Term/ReadLine/Perl5/OO/Keymap.pm
+SHA1 a70a2ea0ec8ab3bc0162b8577cd011199d6492ea lib/Term/ReadLine/Perl5/OO/State.pm
 SHA1 8f372cb4d9b2b105427d659572603621bcf9be6a lib/Term/ReadLine/Perl5/TermCap.pm
 SHA1 f615e634d380dfd5253dac2c065839a36a246d44 lib/Term/ReadLine/Perl5/Tie.pm
-SHA1 9ac49bcb5d3e04ac03c0d2f32ba323f6f8eb4aad lib/Term/ReadLine/Perl5/readline-guide.pod
-SHA1 8ac1436f26e55b860a755c0f27d7014adedacab9 lib/Term/ReadLine/Perl5/readline.pm
-SHA1 0028fef9be7783d9eba29ae4d3940cc99cc8d14e t/00test-pod.t
-SHA1 a3646e743fab73ab858718d4a52c603fbc5334b5 t/10test-basic.t
+SHA1 0902078d1e30d53abcb925cf82cb2a486b14efd6 lib/Term/ReadLine/Perl5/readline-guide.pod
+SHA1 c5838aa781c937265bd37733563bcd1ba8ba6580 lib/Term/ReadLine/Perl5/readline.pm
+SHA1 b69418833611b561793538299403b830f9af8c2d t/00test-pod.t
+SHA1 f6a18625b019fe1f358972eb83bc71c98a449fdb t/01test-OO-compile.t
+SHA1 1f2f2ec9e0313394f6aeb13405297164834e549e t/02test-OO-history-max-len.t
+SHA1 8be672eacc7877ef304f4825b8055739e188663d t/10test-basic.t
 SHA1 a7d508185f68e83e44ea93c4b2f17f6aacc3a419 t/10test-changecase.t
+SHA1 ae998566c03fc5846010cf29823c321d76cb459b t/10test-common.t
 SHA1 5d79817dc3324be63b4cd831a98476340f741eb2 t/10test-filelist.t
-SHA1 b231a7a2fd548afce5630b7493f5f53c8d76af1a t/10test-history.t
+SHA1 1adf9759c44d50d82c87fd457c30cd059f612980 t/10test-history.t
 SHA1 4037e628905b28712d33b4ef99620ef513ab8d9f t/10test-motion.t
 SHA1 0e958c05285630adf5c48774abeb29b496ddf8cf t/10test-readline.t
 SHA1 404d3f247ec86ceb181407e421932791bcaf3d6e t/15test-unescape.t
-SHA1 233877e27e01d92c9d9743a8c499c8c617b25a90 t/20test-read-input-file.t
+SHA1 75cb6e6608540ea0c1723a5ae5e666f18cb73fe5 t/20test-read-input-file.t
 SHA1 a9d474f2aa943b2c7b9df45ad2e677f84d616308 t/Helper.pm
 SHA1 b4e508c02865f0e1d3260109fef54ebca66a8c2e t/data/undo.inputrc
-SHA1 e3fba69ce00546c882c48aa18755f49b994d86be test.pl
+SHA1 995fc0f0d8efa7f76614ebbb00cdec1438b7b62a test.pl
 -----BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.11 (GNU/Linux)
+Version: GnuPG v1
 
-iEYEARECAAYFAlOL/NMACgkQGo3lAIJ17CEaywCeNDgXH7wSZEFCH5jHMUqbvAQT
-y4UAoJlQtWzIUDlQ3sskrJQ4jz9QMwWE
-=LxHq
+iEYEARECAAYFAlPsByEACgkQGo3lAIJ17CEAFgCfQtbZt74FiL42IN8L+GoYoEzA
+tbEAoISSn5n1yX/No+u0yHfmXs8fx7KE
+=8VIx
 -----END PGP SIGNATURE-----

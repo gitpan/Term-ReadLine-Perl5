@@ -1,3 +1,184 @@
+2014-08-13  Rocky Bernstein <rocky@cpan.org>
+
+	* Changes, lib/Term/ReadLine/Perl5.pm,
+	lib/Term/ReadLine/Perl5/readline.pm: Get ready for release 1.40
+
+2014-08-13  Rocky Bernstein <rocky@cpan.org>
+
+	* t/20test-read-input-file.t: On older Perls *Keymap does not get
+	back into emacs_keymap. And possibly this is more what we want
+	anyway.
+
+2014-08-13  Rocky Bernstein <rocky@cpan.org>
+
+	* : Merge in OO branch
+
+2014-06-22  Rocky Bernstein <rocky@cpan.org>
+
+	* lib/Term/ReadLine/Perl5.pm, lib/Term/ReadLine/Perl5/OO.pm,
+	lib/Term/ReadLine/Perl5/readline.pm: Pull out what's needed from
+	preinit to make terminal attributes work on prmopt and user input.
+	Move towards adding that to OO.
+
+2014-06-22  Rocky Bernstein <rocky@cpan.org>
+
+	* Build.PL, lib/Term/ReadLine/Perl5/OO.pm,
+	lib/Term/ReadLine/Perl5/OO/Keymap.pm,
+	lib/Term/ReadLine/Perl5/readline.pm: Just a little closer to getting
+	nested keymaps working on OO version
+
+2014-06-10  Rocky Bernstein <rocky@cpan.org>
+
+	* lib/Term/ReadLine/Perl5/OO/Keymap.pm: Add keymap name and default
+	value to keymap
+
+2014-06-10  Rocky Bernstein <rocky@cpan.org>
+
+	* lib/Term/ReadLine/Perl5/OO.pm,
+	lib/Term/ReadLine/Perl5/OO/Keymap.pm: A couple more small changes
+
+2014-06-10  Rocky Bernstein <rocky@cpan.org>
+
+	* lib/Term/ReadLine/Perl5/OO.pm,
+	lib/Term/ReadLine/Perl5/OO/Keymap.pm, test.pl: Finish converting
+	single-key Emacs keymap bindings to readline F_ functions
+
+2014-06-10  Rocky Bernstein <rocky@cpan.org>
+
+	* lib/Term/ReadLine/Perl5/OO.pm,
+	lib/Term/ReadLine/Perl5/OO/Keymap.pm, test.pl: Start to handle OO
+	Keymaps
+
+2014-06-09  Rocky Bernstein <rocky@cpan.org>
+
+	* lib/Term/ReadLine/Perl5/OO.pm,
+	lib/Term/ReadLine/Perl5/OO/Keymap.pm, test.pl: Work on Emacs keymap,
+	keymaps and command functions. Almost ready for hooking that into
+	OO.pm
+
+2014-06-08  Rocky Bernstein <rocky@cpan.org>
+
+	* lib/Term/ReadLine/Perl5/OO/Keymap.pm: Start a keymap print routine
+
+2014-06-08  Rocky Bernstein <rocky@cpan.org>
+
+	* MANIFEST, lib/Term/ReadLine/Perl5/Common.pm,
+	lib/Term/ReadLine/Perl5/OO/Keymap.pm,
+	lib/Term/ReadLine/Perl5/readline.pm, t/10test-common.t: More work on
+	OO keymaps
+
+2014-06-08  Rocky Bernstein <rocky@cpan.org>
+
+	* lib/Term/ReadLine/Perl5/Common.pm, lib/Term/ReadLine/Perl5/OO.pm,
+	lib/Term/ReadLine/Perl5/readline.pm: Start working on OO Keybindings
+
+2014-06-07  Rocky Bernstein <rocky@cpan.org>
+
+	* lib/Term/ReadLine/Perl5/OO.pm: Start to separate key functions and
+	use the same terminology as in Term::ReadLine::Perl
+
+2014-06-07  Rocky Bernstein <rocky@cpan.org>
+
+	* lib/Term/ReadLine/Perl5/OO.pm: Remove debug stuff
+
+2014-06-07  Rocky Bernstein <rocky@cpan.org>
+
+	* lib/Term/ReadLine/Perl5.pm, lib/Term/ReadLine/Perl5/History.pm,
+	lib/Term/ReadLine/Perl5/OO/History.pm,
+	lib/Term/ReadLine/Perl5/readline.pm, t/01test-OO-compile.t,
+	t/10test-history.t, test.pl: Rework history,
+	Term::ReadLine::Perl5::Hisotry for the default non-OO version of
+	readline (Term::ReadLine::Perl5). It does this by faking it to use
+	the OO history Term::ReadLine::Perl5::OO::History.  This way both OO and non-OO use the same history routines.
+
+2014-06-07  Rocky Bernstein <rocky@cpan.org>
+
+	* MANIFEST, lib/Term/ReadLine/Perl5.pm,
+	lib/Term/ReadLine/Perl5/Common.pm,
+	lib/Term/ReadLine/Perl5/History.pm, lib/Term/ReadLine/Perl5/OO.pm,
+	lib/Term/ReadLine/Perl5/OO/History.pm,
+	lib/Term/ReadLine/Perl5/readline.pm, t/01test-OO-compile.t,
+	t/10test-basic.t, t/10test-changecase.t, t/10test-filelist.t,
+	t/10test-history.t, t/10test-motion.t, t/10test-readline.t,
+	t/15test-unescape.t, test.pl: Get down to 5 history tests failing.
+
+2014-06-06  Rocky Bernstein <rocky@cpan.org>
+
+	* lib/Term/ReadLine/Perl5.pm, t/10test-basic.t,
+	t/10test-changecase.t, t/10test-filelist.t, t/10test-history.t,
+	t/10test-motion.t, t/10test-readline.t, t/15test-unescape.t,
+	test.pl: Try fallback to Caroline module reamed
+	Term::ReadLine::Perl5::OO
+
+2014-06-06  Rocky Bernstein <rocky@cpan.org>
+
+	* MANIFEST, lib/Term/ReadLine/Perl5/OO.pm,
+	lib/Term/ReadLine/Perl5/OO/State.pm, t/00test-pod.t,
+	t/01test-OO-compile.t, t/02test-OO-history-max-len.t,
+	t/10test-basic.t: A minimally working OO history
+
+2014-06-05  Rocky Bernstein <rocky@cpan.org>
+
+	* .travis.yml, MANIFEST: Travis 3rd try
+
+2014-06-05  Rocky Bernstein <rocky@cpan.org>
+
+	* lib/Term/ReadLine/Perl5/OO/State.pm: Package pplit off from OO.
+
+2014-06-05  Rocky Bernstein <rocky@cpan.org>
+
+	* .travis.yml: Travis 2nd try
+
+2014-06-05  Rocky Bernstein <rocky@cpan.org>
+
+	* .travis.yml, Build.PL: Add Caroline's dependencies. Try to get
+	this working on Travis
+
+2014-06-05  Rocky Bernstein <rocky@cpan.org>
+
+	* lib/Term/ReadLine/Perl5.pm, lib/Term/ReadLine/Perl5/OO.pm,
+	lib/Term/ReadLine/Perl5/OO/History.pm: More baby steps to bring
+	Caroline into the fold
+
+2014-06-05  Rocky Bernstein <rocky@cpan.org>
+
+	* lib/Term/ReadLine/Perl5/readline.pm: I said, $past->$paste
+
+2014-06-05  Rocky Bernstein <rocky@cpan.org>
+
+	* lib/Term/ReadLine/Perl5/readline.pm: $past->$paste
+
+2014-06-05  Rocky Bernstein <rocky@cpan.org>
+
+	* lib/Term/ReadLine/Perl5/readline.pm, test.pl: Use Test::More in
+	test.pl
+
+2014-06-05  Rocky Bernstein <rocky@cpan.org>
+
+	* lib/Term/ReadLine/Perl5/OO/History.pm,
+	lib/Term/ReadLine/Perl5/readline.pm, t/10test-history.t: Remove some
+	bugs, reduce global-namespace filehandles
+
+2014-06-05  Rocky Bernstein <rocky@cpan.org>
+
+	* lib/Term/ReadLine/Perl5.pm, lib/Term/ReadLine/Perl5/History.pm,
+	lib/Term/ReadLine/Perl5/readline.pm, t/10test-history.t: Back port
+	some of the newer OO History code here - doc read/write_history.
+
+2014-06-05  Rocky Bernstein <rocky@cpan.org>
+
+	* Build.PL, lib/Term/ReadLine/Perl5.pm,
+	lib/Term/ReadLine/Perl5/History.pm, lib/Term/ReadLine/Perl5/OO.pm,
+	lib/Term/ReadLine/Perl5/OO/History.pm, t/10test-history.t, test.pl: 
+	A branch to attempt to make OO and merge in Caroline. Here we start
+	with the recently-added history mechanism.
+
+2014-06-02  Rocky Bernstein <rocky@cpan.org>
+
+	* META.yml, lib/Term/ReadLine/Perl5.pm,
+	lib/Term/ReadLine/Perl5/readline-guide.pod,
+	lib/Term/ReadLine/Perl5/readline.pm: Improve sectioning. POD typo.
+
 2014-06-02  Rocky Bernstein <rocky@cpan.org>
 
 	* Build.PL, Changes, lib/Term/ReadLine/Perl5.pm,
