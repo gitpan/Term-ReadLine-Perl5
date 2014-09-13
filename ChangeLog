@@ -1,3 +1,28 @@
+2014-09-13  Rocky Bernstein <rocky@cpan.org>
+
+	* test.pl: Don't use rlib even in the tests
+
+2014-09-13  Rocky Bernstein <rocky@cpan.org>
+
+	* .travis.yml, META.yml: Don't use rlib in travis.
+
+2014-09-13  Rocky Bernstein <rocky@cpan.org>
+
+	* Changes: Get ready for release 1.41
+
+2014-09-13  Rocky Bernstein <rocky@cpan.org>
+
+	* Build.PL, lib/Term/ReadLine/Perl5.pm,
+	lib/Term/ReadLine/Perl5/OO.pm, lib/Term/ReadLine/Perl5/Tie.pm,
+	lib/Term/ReadLine/Perl5/readline-guide.pod,
+	lib/Term/ReadLine/Perl5/readline.pm: I said, make rlib an optional
+	dependency.
+
+2014-09-12  Rocky Bernstein <rocky@cpan.org>
+
+	* : commit d940634bc0dc5da08593f06ce250891a5a6c80f4 Author: Rocky
+	Bernstein <rocky@cpan.org> Date:   Fri Sep 12 20:52:52 2014 -0400
+
 2014-09-12  Rocky Bernstein <rocky@cpan.org>
 
 	* Build.PL, META.yml, lib/Term/ReadLine/Perl5/OO.pm: Fix POD error

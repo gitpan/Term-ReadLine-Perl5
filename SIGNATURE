@@ -14,30 +14,30 @@ not run its Makefile.PL or Build.PL.
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA1
 
-SHA1 d0de2570c8592c0ff75bca8ef9a2e5c094af4a2c Build.PL
-SHA1 837d2e06e55d0eea1bb03373277bde58f06d14c8 ChangeLog
-SHA1 e592ef1f94044d3294d4da15bf11db22e3a18707 Changes
+SHA1 6dcd5d4db14a71c57849a22fe853261bd3b5d9c3 Build.PL
+SHA1 7e4c31024ed775684658873a81ee7edf1e071f03 ChangeLog
+SHA1 10331857d5a87bea2c71ffc7d6a668f82663051b Changes
 SHA1 ad35d4ad9e96de51a11677ce075e19731336fa82 GNUmakefile
 SHA1 2cdc6028c730caf1505bafb44a7e46bacd074d01 LICENSE
 SHA1 7843dd83bc3161bffbf00e9a0353d6867bb5b063 MANIFEST
-SHA1 33fae47df8ed6fa4945e3a8cb3048497b14193cf META.json
-SHA1 f4356a0cd331b5a98b370127a3c3fb56bd3e9cb7 META.yml
+SHA1 1189ec72e9a525dc127412393a2aea11ce6b212c META.json
+SHA1 3ed6d4cbc2f12c383f2706cb5b61495b450755b9 META.yml
 SHA1 11fc7e434201a55455d75adf05d32698840e50b1 Makefile.PL
 SHA1 305b123245b3f37a56bfbbf1a5be863d44a56615 README.pod
-SHA1 1f173e624407375d550c1a4a0d73aacfa52ef677 lib/Term/ReadLine/Perl5.pm
+SHA1 9cade21a5060dba9ab9a94d1377aec5a79eacfa1 lib/Term/ReadLine/Perl5.pm
 SHA1 19b893fed1e00ce86650d80205fa927380e820c4 lib/Term/ReadLine/Perl5/CHANGES
 SHA1 5d720071ae1e540d2123732a87035e21bcbc6235 lib/Term/ReadLine/Perl5/Common.pm
 SHA1 2088a4e5efeb607aaa9987b8afeecbabd0e803f4 lib/Term/ReadLine/Perl5/Dumb.pm
 SHA1 a59eb75bbcd4070a12223c00a1ca1d5b92e01e4b lib/Term/ReadLine/Perl5/History.pm
 SHA1 f5033185d2014a58b2af611d44402b18e0a2bff0 lib/Term/ReadLine/Perl5/Keymap.pm
-SHA1 d9f10440533a8d4e690f0ecab0ae365715a62489 lib/Term/ReadLine/Perl5/OO.pm
+SHA1 4b6cec971f31655d2af8d322adeff6ebad9c0ede lib/Term/ReadLine/Perl5/OO.pm
 SHA1 e8a6e84c92a4ecbeca845e3772db46f588684e7e lib/Term/ReadLine/Perl5/OO/History.pm
 SHA1 3520eb08b12be9ab0e1367510d9e1c448e2f363e lib/Term/ReadLine/Perl5/OO/Keymap.pm
 SHA1 c30ed2f79b5679fbdcba11bf848d0794ce54818a lib/Term/ReadLine/Perl5/OO/State.pm
 SHA1 8f372cb4d9b2b105427d659572603621bcf9be6a lib/Term/ReadLine/Perl5/TermCap.pm
-SHA1 4ae86d13e91e0864813afa43e090f6c1dfd93b59 lib/Term/ReadLine/Perl5/Tie.pm
-SHA1 0fd386fc3753a530d3c7a28cb218aef0d95c7e07 lib/Term/ReadLine/Perl5/readline-guide.pod
-SHA1 e78333594dc8f75020bf51a956451933d99a67de lib/Term/ReadLine/Perl5/readline.pm
+SHA1 b7f111eb77216794fdd77eaeb084d9435fa5ab1d lib/Term/ReadLine/Perl5/Tie.pm
+SHA1 cd856608f023a40ed957dc8654f1c3b00cfef4bd lib/Term/ReadLine/Perl5/readline-guide.pod
+SHA1 b4b9397dd65004c87288bb185fe8f602f9029a66 lib/Term/ReadLine/Perl5/readline.pm
 SHA1 b69418833611b561793538299403b830f9af8c2d t/00test-pod.t
 SHA1 1fa4469ae407ae5d01df1cbbb334d4687b3dc110 t/01test-OO-compile.t
 SHA1 85e09db9f730b0430119af0689e8f3491c6f3db1 t/02test-OO-history-max-len.t
@@ -52,11 +52,11 @@ SHA1 aa441ebb0c54942e6c1952bb089ed8709c63e21b t/15test-unescape.t
 SHA1 e3e4861f71034c4332c5a13ead69348f57543726 t/20test-read-input-file.t
 SHA1 a9d474f2aa943b2c7b9df45ad2e677f84d616308 t/Helper.pm
 SHA1 b4e508c02865f0e1d3260109fef54ebca66a8c2e t/data/undo.inputrc
-SHA1 995fc0f0d8efa7f76614ebbb00cdec1438b7b62a test.pl
+SHA1 b3da282b87be2bc65a02d2db3fd18e6d802f2830 test.pl
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1
 
-iEYEARECAAYFAlQTlv8ACgkQGo3lAIJ17CFn/ACggDKOocA+jh1bjt/mUeNFirtM
-ikQAoIw9e1XKuf74s7MLyuIOtXZKqtDx
-=RaHb
+iEYEARECAAYFAlQT39EACgkQGo3lAIJ17CHLDgCeI1ze6B59i/pqNXXfK/MABlAm
+CbgAmgLCSwvQ4ae/Xp5wGJ418aPPfAL/
+=fsQz
 -----END PGP SIGNATURE-----
